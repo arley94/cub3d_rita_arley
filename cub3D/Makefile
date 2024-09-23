@@ -2,31 +2,47 @@ NAME = cub3D
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-MLX_FLAGS = -Lmmlx -lmlx -framework OpenGL -framework Appkit
-
-LIBFT = libft/libft.a
-MLX = mlx/libmlx.a
 
 #SOURCE FILES
 SRC =	main.c \
+		check_map.c \
+		exit.c \
+		aux.c
 
 #OBJECT FILES
 OBJ = $(SRC:%.c=%.o) 
 
-all: $(NAME)
+#COMPILE IN MAC AND LINUX
+ifeq ($(shell uname), Linux)
+	INCLUDES = -I/usr/include -Imlx
+else
+	INCLUDES = -I/opt/X11/include -Imlx
+endif
+
+MLX_DIR = ./mlx
+MLX = $(MLX_DIR)/libmlx$(UNAME).a
+
+ifeq ($(shell uname), Linux)
+	MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+else
+	MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 -framework OpenGL -framework AppKit
+endif
+
+LIBFT = ./libft/libft.a
+
+all: $(MLX) $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $^ $(MLX_FLAGS) -o $(NAME)
+	$(CC) $^ $(CFLAGS) $(MLX_FLAGS) -o $(NAME)
 
 $(LIBFT):
-	@make all -C libft/
+	@make all -C ./libft
 
 $(MLX):
-	@make all -C mlx
+	@make all -C $(MLX_DIR)
 
 %.o: src/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
 clean:
 	@rm -rf $(OBJ)
@@ -35,7 +51,6 @@ clean:
 
 fclean: clean
 	@make fclean -C ./libft
-	@make fclean -C ./mlx
 	@rm -rf $(NAME)
 
 re: fclean all

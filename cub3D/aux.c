@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_line_length.c                                   :+:      :+:    :+:   */
+/*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 20:26:57 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/09/23 12:50:30 by ritavasques      ###   ########.fr       */
+/*   Created: 2024/09/23 12:58:00 by ritavasques       #+#    #+#             */
+/*   Updated: 2024/09/23 13:57:17 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-int	ft_line_length(int fd)
+int	get_biggest_lenght(t_data *data)
 {
-	char	line[5];
-	int		bytesread;
-	int		length;
+	int	x;
+	int	y;
+	int	columns;
 
-	line[0] = '\0';
-	bytesread = 1;
-	length = 0;
-	while (bytesread == 1)
+	y = 0;
+	columns = 0;
+	while (data->map->map[y])
 	{
-		bytesread = read(fd, line, 1);
-		if (line[0] != '\n')
-			length++;
-		else
-			break ;
+		x = 0;
+		while (data->map->map[y][x] && data->map->map[y][x] != '\n')
+			x++;
+		if (x >= columns)
+			columns = x;
+		y++;
 	}
-	return (length);
+	return (columns);
 }
+
