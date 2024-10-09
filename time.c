@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux.c                                              :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 12:58:00 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/09 10:59:45 by ritavasques      ###   ########.fr       */
+/*   Created: 2024/09/25 12:15:51 by ritavasques       #+#    #+#             */
+/*   Updated: 2024/10/09 12:19:10 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-//Calculate the maximum number of columns to get map size (max x)
-int	get_biggest_lenght(t_data *data)
+void manage_time(t_data *data)
 {
-	int	x;
-	int	y;
-	int	columns;
-
-	y = 0;
-	columns = 0;
-	while (data->map->map[y])
-	{
-		x = 0;
-		while (data->map->map[y][x] && data->map->map[y][x] != '\n')
-			x++;
-		if (x >= columns)
-			columns = x;
-		y++;
-	}
-	return (columns);
+	data->fps.old_time = data->fps.time;
+	data->fps.time = getTicks();
+	data->fps.frametime = (data->fps.time - data->fps.old_time) / 1000.0;
+	data->player.move_speed = data->fps.frametime * 5.0;
+	data->player.rotation_speed = data->fps.frametime * 3.0;
 }
-

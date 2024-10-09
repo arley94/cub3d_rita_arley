@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/09/25 13:36:35 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/09 12:39:46 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,59 @@
 #include <stdio.h>
 
 # define BUFF_SIZE 1000
+
+//KEYS
+# define ESC 53
+# define W 13
+# define A 0
+# define S 1
+# define D 2
+
+//SCREEN & TEXTURES
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 360
+# define TEXTURE_SIZE 64
+# define TEXTURES 4
+# define FLOOR 0
+# define CEILING 1
+# define FOV 90 //field of vision
 
 //DIRECTION
 typedef enum e_direction
 {
-	NORTH = 0,
-	SOUTH = 1,
-	EAST = 2,
-	WEST = 3
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST,
 }	t_direction;
+
+typedef enum e_arrow
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}	t_arrow;
+
+//TEXTURES - IMG
+typedef struct s_img
+{
+	char			*path;
+	void 			*img;
+	int				*addr;
+	int				line_lenght;
+	int				bits_per_pixel;
+	int				endian;
+	int				width;
+	int				height;
+}			t_img;
 
 //MAP
 typedef struct s_map
 {
 	char	**map;
-	void	*img;
+	int		start_x;
+	int		start_y;
 }			t_map;
 
 //PLAYER
@@ -51,8 +87,9 @@ typedef struct s_player
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	
-}	t_player;
+	double		move_speed;
+	double		rotation_speed;
+}				t_player;
 
 //RAYCASTING
 typedef struct s_ray
@@ -77,19 +114,29 @@ typedef struct s_ray
 	double	wall_x;
 }	t_ray;
 
+//FRAMES PER SECOND
+typedef struct s_fps
+{
+	double	time;
+	double	old_time;
+	double	frametime;
+}			t_fps;
+
 typedef struct s_data
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
-	int			*size_x;
-	int			*size_y;
-	int			lines;
-	int			columns;
+	int			lines; //Map height
+	int			columns; //Map width
+	int			**pixels;
+	int			floor;
+	int			ceiling;
 	t_direction	player_dir;		
 	t_map		*map;
 	t_player	player;
 	t_ray		ray;
+	t_fps		fps;
+	t_img		img;
 }			t_data;
 
 //CHECK MAP
@@ -97,8 +144,12 @@ char    **read_map( char *map);
 int		check_cub(char *str);
 int		map_ok(t_data *data);
 
+//PLAYER
+void	init_player(t_data *data);
+
 //EXIT & FREE
 void	free_map(t_data *data);
+int 	close_window(t_data *data);
 
 //AUX
 int	get_biggest_lenght(t_data *data);
@@ -108,5 +159,10 @@ void ray_direction(t_data *data, int x);
 void delta_distance(t_data *data);
 void step_side_distance(t_data *data);
 void dda_algorithm(t_data *data);
+double wall_distance(t_data *data);
+void	wall_data(t_data *data);
+void raycasting(t_data *data);
+
+//DRAW
 
 #endif
