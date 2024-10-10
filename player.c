@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:14:33 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/09 12:17:47 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 14:05:08 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,19 @@ static void	player_position(t_data *data)
 	int	y;
 	int	x;
 
-	x = 0;
 	y = 0;
-	while (y < data->lines)
+	while (data->map[y])
 	{
-		while (x < data->columns)
+		x = 0;
+		while (data->map[y][x])
 		{
-			if (data->map->map[y][x] == 'N' ||
-			data->map->map[y][x] == 'S' ||
-			data->map->map[y][x] == 'E' ||
-			data->map->map[y][x] == 'W')
+			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
 			{
-				data->player.y = (double)(y + 0.5);
-				data->player.x = (double)(x + 0.5);
+				data->player.y = y + 0.5;
+				data->player.x = x + 0.5;
 			}
 			x++;
 		}
-		x = 0;
 		y++;
 	}
 }
@@ -45,23 +41,22 @@ static int	player_direction(t_data *data)
 	int	y;
 	int	x;
 
-	x = 0;
 	y = 0;
-	while (y < data->lines)
+	while (data->map[y])
 	{
-		while (x < data->columns)
+		x = 0;
+		while (data->map[y][x])
 		{
-			if (data->map->map[y][x] == 'N')
+			if (data->map[y][x] == 'N')
 				data->player_dir = NORTH;
-			else if (data->map->map[y][x] == 'S')
+			else if (data->map[y][x] == 'S')
 				data->player_dir = SOUTH;
-			else if (data->map->map[y][x] == 'E')
+			else if (data->map[y][x] == 'E')
 				data->player_dir = EAST;
-			else if (data->map->map[y][x] == 'W')
+			else if (data->map[y][x] == 'W')
 				data->player_dir = WEST;
 			x++;
 		}
-		x = 0;
 		y++;
 	}
     return (0);
@@ -74,8 +69,6 @@ void	init_player(t_data *data)
 	int x;
 	int y;
 	
-    data->player.fov = FOV;
-    data->player.rotation_speed = 0.015;
 	player_position(data);
     data->player_dir = player_direction(data);
 	if (data->player_dir == NORTH)

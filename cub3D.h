@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/09 12:39:46 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 15:33:35 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,20 @@
 # define A 0
 # define S 1
 # define D 2
+# define UP 126
+# define DOWN 125
+# define RIGHT 124
+# define LEFT 123
+
+# define KEY_PRESS 2
+# define KEY_RELEASE 3
+# define SCREEN_X 17
 
 //SCREEN & TEXTURES
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 360
-# define TEXTURE_SIZE 64
+# define TEXTURE_HEIGHT 64
+# define TEXTURE_WIDTH 64
 # define TEXTURES 4
 # define FLOOR 0
 # define CEILING 1
@@ -49,15 +58,19 @@ typedef enum e_direction
 	EAST,
 }	t_direction;
 
-typedef enum e_arrow
+//KEYS
+typedef struct s_key
 {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}	t_arrow;
+	int w;
+	int s;
+	int a;
+	int d;
+	int right;
+	int left;
+	int p;
+}		t_key;
 
-//TEXTURES - IMG
+//IMG
 typedef struct s_img
 {
 	char			*path;
@@ -70,19 +83,23 @@ typedef struct s_img
 	int				height;
 }			t_img;
 
-//MAP
-typedef struct s_map
+//TEXTURE
+typedef struct s_texture
 {
-	char	**map;
-	int		start_x;
-	int		start_y;
-}			t_map;
+	void 			*img;
+	int				*addr;
+	int				line_lenght;
+	int				bits_per_pixel;
+	int				endian;
+	int				width;
+	int				height;
+}	t_texture;
 
 //PLAYER
 typedef struct s_player
 {
-	int			x;
-	int			y;
+	double			x;
+	double			y;
 	double		dir_x;
 	double		dir_y;
 	double		plane_x;
@@ -94,68 +111,68 @@ typedef struct s_player
 //RAYCASTING
 typedef struct s_ray
 {
-	double	camera_plane;
 	double	dir_x;
 	double	dir_y;
-	int		map_x;
-	int		map_y;
-	double	step_x;
-	double	step_y;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
+	double	camera_plane;
+	double wall_x;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
 	double	wall_dist;
-	int		hit;
 	int		side;
-	int		line_height;
-	int		draw_start;
-	int		draw_end;
-	double	wall_x;
+	int				hit;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
 }	t_ray;
-
-//FRAMES PER SECOND
-typedef struct s_fps
-{
-	double	time;
-	double	old_time;
-	double	frametime;
-}			t_fps;
 
 typedef struct s_data
 {
 	void		*mlx;
 	void		*win;
-	int			lines; //Map height
-	int			columns; //Map width
-	int			**pixels;
-	int			floor;
-	int			ceiling;
+	char		**map;
+	char		**rgb;
+	char		**xpm;
+	unsigned long			floor;
+	unsigned long			ceiling;
+	int			textures[4][TEXTURE_HEIGHT * TEXTURE_WIDTH];
+	
+	double			tex_position;
+	int				text_number;
+	int				text_y;
+	int				text_x;
+	unsigned int	color;
 	t_direction	player_dir;		
-	t_map		*map;
 	t_player	player;
 	t_ray		ray;
-	t_fps		fps;
 	t_img		img;
+	t_texture	texture[4];
+	t_key		key;
 }			t_data;
 
 //CHECK MAP
-char    **read_map( char *map);
 int		check_cub(char *str);
 int		map_ok(t_data *data);
+int	check_textures(int fd, t_data *data);
 
 //PLAYER
 void	init_player(t_data *data);
 
 //EXIT & FREE
-void	free_map(t_data *data);
+void	exit_error(char *str, t_data *data);
 int 	close_window(t_data *data);
+void free_array(char **array);
 
 //AUX
 int	get_biggest_lenght(t_data *data);
 
 //RAY
-void ray_direction(t_data *data, int x);
+void ray_direction(int x, t_data *data);
 void delta_distance(t_data *data);
 void step_side_distance(t_data *data);
 void dda_algorithm(t_data *data);
@@ -163,6 +180,11 @@ double wall_distance(t_data *data);
 void	wall_data(t_data *data);
 void raycasting(t_data *data);
 
-//DRAW
+//DRAW, COLORS & TEXTURES
+int get_colors(t_data *data);
+int	init_textures(t_data *data);
+void	set_texture(t_data *data);
+void	draw_texture(int x, t_data *data);
+void	get_texture_x(t_data *data);
 
 #endif

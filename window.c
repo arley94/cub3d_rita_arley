@@ -6,22 +6,23 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:06:04 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/09 12:39:04 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 13:55:36 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-//Creates window, load images and set the hooks
-void	manage_win(t_data *data)
+//Creates window
+void	init_win(t_data *data)
 {
 	data->mlx = mlx_init();
-    if (!data->mlx)
-        close_window(data);
+	if (!data->mlx)
+		exit_error("Something wrong with mlx!", data);
+	if (map_ok(data))
+		exit_error("Invalid map!", data);
+    if (get_colors(data) || init_textures(data))
+		exit_error("Problem with colors or textures!", data);
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
     if (!data->win)
-        close_window(data);
-	//fill_map(data);
-	//mlx_key_hook(data->win, &move_player, data);
-	//mlx_hook(data->win, 17, 0, &close_window, data);
+		exit_error("Cannot create window!", data);
 }

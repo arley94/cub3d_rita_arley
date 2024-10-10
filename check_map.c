@@ -6,38 +6,112 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/09/25 10:18:05 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 13:53:45 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-char    **read_map( char *map)
+static char    **copy_map(char **map, int size)
 {
-	int		fd;
-	char	*temp_map;
-	char	**map_read;
-	int		bytesread;
-
-	bytesread = 0;
-	temp_map = (char *) ft_calloc(BUFF_SIZE + 1, sizeof(char));
-	if (!temp_map)
+	int		i;
+	char	**cpy_map;
+	
+	i = 0;
+	cpy_map = malloc(sizeof(char *) * size);
+	if (!cpy_map)
 		return (NULL);
-	fd = open(map, O_RDONLY);
+	while (map[i])
+	{
+		cpy_map[i] = map[i];
+		i++;
+	}
+	cpy_map[i] = NULL;
+	cpy_map[i + 1] = NULL;
+	free(map);
+	return (cpy_map);
+}
+
+static int	map(char *line, t_data *data)
+{
+	char	**tmp;
+
+	if (!data->map)
+	{
+		data->map = malloc(sizeof(char *) * 2);
+		if (!data->map)
+			return (1);
+		data->map[0] = ft_strdup(line);
+		data->map[1] = NULL;
+	}
+	else
+	{
+		tmp = copy_map(data->map, array_len(data->map) + 2);
+		if (!tmp)
+			return (1);
+		data->map = tmp;
+		data->map[array_len(data->map)] = ft_strdup(line);
+	}
+	return (0);
+}
+
+int read_map(int fd, t_data *data)
+{
+	char	*line;
+	int 	bytesread;
+	
+	while (1)
+	{
+		bytesread = get_next_line(fd, &line);
+		if (bytesread < 0)
+			return (1);
+		if (ft_strlen(line) == 0 && !data->map)
+			;
+		else if (map(line, data) == 1)
+		{
+			free(line);
+			return (1);
+		}
+		free(line);
+		if (bytesread == 0)
+			break ;
+	}
+	return (0);
+}
+
+int	check_file(char *file, t_data *data)
+{
+	int fd;
+	
+	fd = opne(file, O_RDONLY);
 	if (fd < 0)
 	{
-		free(temp_map);
-		return (NULL);
+		close(fd);
+		exit_error("Cannot open file!", data);
 	}
-	bytesread = read(fd, temp_map, BUFF_SIZE);
-	if (bytesread <= 0)
+	if (check_textures(fd, data) || read_map(fd, data))
 	{
-		free(temp_map);
-		return (NULL);
+		close(fd);
+		exit_error("File information not correct", data);
 	}
-	map_read = ft_split(temp_map, '\n');
-	free(temp_map);
-	return (close(fd), map_read);
+	close (fd);
+	return (0);
+}
+
+static int map_end(int i, t_data *data)
+{
+	int x;
+
+	x = i;
+	x++;
+	while (data->map[x])
+	{
+		if (ft_strlen(data->map[x]) > 0)
+			return (1);
+		i++;
+	}
+	data->map[x] = NULL;
+	return (0);
 }
 
 //File extencion of map must be .cub
@@ -54,92 +128,75 @@ int	check_cub(char *str)
 }
 
 //Map must be surrounded by walls (spaces are valid)
-static int	check_surrounded_walls(t_data *data)
+static int	check_surrounded_walls(int x, int y, t_data *data)
 {
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < data->lines)
+	if (data->map[y][x] == '0' || (data->map[y][x] != '1' && data->map[y][x] != ' '))
 	{
-		x = 0;
-		while (x < data->columns)
-		{
-			if ((y == 0 || y == data->lines) && (data->map->map[y][x] != '1' && data->map->map[y][x] != ' '))
-				return (0);
-			if ((x == 0 || x == data->columns) && (data->map->map[y][x] != '1' && data->map->map[y][x] != ' '))
-				return (0);
-			x++;
-		}
-		y++;
-	}
-	return (1);
-}
-
-//Only components 0, 1, N, S, E, W and space are valid
-static int	check_components(t_data *data)
-{
-	int	y;
-	int	x;
-
-	x = 0;
-	y = 0;
-	while (y < data->lines)
-	{
-		while (x < data->columns)
-		{
-			if (data->map->map[y][x] != '0' && \
-			data->map->map[y][x] != '1' && \
-			data->map->map[y][x] != 'N' && \
-			data->map->map[y][x] != 'S' && \
-			data->map->map[y][x] != 'E' && \
-			data->map->map[y][x] != 'W' && \
-			data->map->map[y][x] != ' ')
-			{
-				return (1);
-				break ;
-			}
-			x++;
-		}
-		x = 0;
-		y++;
+		if (y == 0 || !data->map[y + 1] || x == 0 || !data->map[y][x + 1])
+			return (1);
+		if (data->map[y - 1] && data->map[y - 1][x] && data->map[y - 1][x] == ' ')
+			return (1);
+		if (data->map[y + 1] && data->map[y + 1][x] && data->map[y + 1][x] == ' ')
+			return (1);
+		if (data->map[y] && data->map[y][x - 1] && data->map[y][x - 1] == ' ')
+			return (1);
+		if (data->map[y] && data->map[y][x + 1] && data->map[y][x + 1] == ' ')
+			return (1);
 	}
 	return (0);
 }
 
-//Check there's a player and only one
-static int	check_player(t_data *data)
+// Components 0, 1, N, S, E, W and space.
+// Only one player
+static int	check_components(t_data *data)
 {
 	int	y;
 	int	x;
 	int count;
 
-	x = 0;
 	y = 0;
 	count = 0;
-	while (y < data->lines)
+	while (data->map[y])
 	{
-		while (x < data->columns)
+		x = 0;
+		while (data->map[y][x])
 		{
-			if (data->map->map[y][x] == 'N' ||
-			data->map->map[y][x] == 'S' ||
-			data->map->map[y][x] == 'E' ||
-			data->map->map[y][x] == 'W')
+			if (!ft_strchr(" 10NSWE", data->map[y][x]))
+				return (0);
+			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
 				count++;
 			x++;
 		}
-		x = 0;
 		y++;
 	}
-	if (count > 1 || count == 0)
-		return (1);
-	return (0);
+	return (count);
 }
 
 //Check that map rules apply
 int	map_ok(t_data *data)
 {
-	if (check_surrounded_walls(data) && !check_components(data) && !check_player(data))
+	int x;
+	int y;
+	
+	if (check_components(data) != 1)
 		return (1);
+	y = 0;
+	while (data->map[y])
+	{
+		if (ft_strlen(data->map[y]) == 0)
+		{
+			if (map_end(y, data) == 1)
+				return (1);
+			break ;
+		}
+		y = 0;
+		while (data->map[y][x])
+		{
+			if (check_surrounded_walls(x, y, data) == 1)
+				return (1);
+			x++;
+		}
+		y++;
+	}
 	return (0);
 }
