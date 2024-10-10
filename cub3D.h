@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 15:33:35 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 16:07:05 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,13 @@ void	exit_error(char *str, t_data *data);
 int 	close_window(t_data *data);
 void free_array(char **array);
 
-//AUX
-int	get_biggest_lenght(t_data *data);
+//MOVE
+void move_forward(t_data *data);
+void	move_backwards(t_data *data);
+void	move_right(t_data *data);
+void	move_left(t_data *data);
+void	rotate_right(t_data *data);
+void	rotate_left(t_data *data);
 
 //RAY
 void ray_direction(int x, t_data *data);
