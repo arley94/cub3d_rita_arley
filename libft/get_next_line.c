@@ -3,111 +3,121 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:55:17 by rivasque          #+#    #+#             */
-/*   Updated: 2024/02/28 14:32:23 by rivasque         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:48:30 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_str_cut(char *str)
+int	ft_start(char **buf, int fd, int *bytesread)
 {
-	int		i;
-	char	*str_print;
-
-	if (!(str))
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	str_print = (char *) malloc((i + 1) * sizeof(char));
-	if (!str_print)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
+	buf[fd] = malloc(BUFFER_SIZE + 1);
+	if (!buf[fd])
+		return (-1);
+	*bytesread = read(fd, buf[fd], BUFFER_SIZE);
+	if (*bytesread < 0)
 	{
-		str_print[i] = str[i];
+		free(buf[fd]);
+		return (-1);
+	}
+	buf[fd][*bytesread] = 0;
+	return (0);
+}
+
+int	ft_in_while_a(char **buf, char *cat, char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while ((*buf)[i])
+	{
+		cat[i] = (*buf)[i];
 		i++;
 	}
-	if (str[i] == '\n')
-		str_print[i++] = '\n';
-	str_print[i] = '\0';
-	return (str_print);
+	i = 0;
+	while ((*tmp)[i])
+	{
+		cat[i + ft_strlen(*buf)] = (*tmp)[i];
+		i++;
+	}
+	cat[i + ft_strlen(*buf)] = 0;
+	free(*tmp);
+	free(*buf);
+	*buf = cat;
+	return (1);
 }
 
-char	*ft_str_left(char *str)
+int	ft_in_while(char **buf, int fd, int *bytesread)
+{
+	char	*tmp;
+	char	*cat;
+
+	tmp = malloc(BUFFER_SIZE + 1);
+	if (!tmp)
+		return (-1);
+	*bytesread = read(fd, tmp, BUFFER_SIZE);
+	if (*bytesread < 0)
+	{
+		free(tmp);
+		return (-1);
+	}
+	tmp[*bytesread] = 0;
+	cat = malloc(ft_strlen(buf[fd]) + ft_strlen(tmp) + 1);
+	if (!cat)
+	{
+		free(tmp);
+		return (-1);
+	}
+	return ((ft_in_while_a(&(buf[fd]), cat, &tmp)));
+}
+
+int	ft_if_new_line(char **buf, char **line)
 {
 	int		i;
-	int		j;
-	char	*str_keep;
+	char	*tmp;
 
 	i = 0;
-	j = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && str[i] != '\n')
+	while ((*buf)[i] != 10)
 		i++;
-	str_keep = (char *) malloc((ft_strlen(str) - i) * sizeof(char));
-	if (!str_keep)
-		return (NULL);
-	i += 1;
-	while (str[i])
-		str_keep[j++] = str[i++];
-	free(str);
-	str_keep[j] = '\0';
-	return (str_keep);
+	*line = ft_strdup(*buf);
+	if (!*line)
+		return (-1);
+	(*line)[i] = 0;
+	tmp = ft_strdup(&((*buf)[i + 1]));
+	if (!tmp)
+		return (-1);
+	free((*buf));
+	*buf = tmp;
+	return (1);
 }
 
-char	*ft_print(char **add_read)
+int	get_next_line(int fd, char **line)
 {
-	char		*line;
-
-	if (ft_strchr_int(*add_read, '\n'))
-	{
-		line = ft_str_cut(*add_read);
-		*add_read = ft_str_left(*add_read);
-		if (!(*add_read[0]))
-		{
-			free(*add_read);
-			*add_read = NULL;
-		}
-		return (line);
-	}
-	line = ft_strdup(*add_read);
-	free(*add_read);
-	*add_read = NULL;
-	return (line);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*add_read;
-	char		*str_buff;
 	int			bytesread;
+	static char	*buf[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
+	bytesread = BUFFER_SIZE;
+	if (fd >= 0 && BUFFER_SIZE > 0 && fd < OPEN_MAX)
 	{
-		if (add_read)
-			free(add_read);
-		add_read = NULL;
-		return (NULL);
+		if (!buf[fd] && ft_start(buf, fd, &bytesread))
+			return (-1);
+		while (!ft_new_line(buf[fd]) && BUFFER_SIZE == bytesread)
+			if (ft_in_while(buf, fd, &bytesread) == -1)
+				return (-1);
+		if (ft_new_line(buf[fd]))
+			return (ft_if_new_line(&(buf[fd]), line));
+		else
+		{
+			*line = ft_strdup(buf[fd]);
+			if (!*line)
+				return (-1);
+			free(buf[fd]);
+			buf[fd] = NULL;
+			return (0);
+		}
 	}
-	str_buff = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!str_buff)
-		return (NULL);
-	str_buff[0] = '\0';
-	while (!ft_strchr_int(str_buff, '\n'))
-	{
-		bytesread = read(fd, str_buff, BUFFER_SIZE);
-		str_buff[bytesread] = '\0';
-		if (bytesread == 0)
-			break ;
-		add_read = ft_strjoin_buff(add_read, str_buff);
-	}
-	free(str_buff);
-	return (ft_print(&add_read));
+	return (-1);
 }

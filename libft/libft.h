@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:40:12 by rivasque          #+#    #+#             */
-/*   Updated: 2024/04/05 18:12:37 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/10 11:49:50 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	*ft_memmove(void *dest, const void *src, size_t count);
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
 int		ft_line_length(int fd);
-char	*get_next_line(int fd);
+char	*get_next_line(int fd,  char **line);
 int		ft_line_count(char **file);
 int		ft_putchar(char c);
 int		ft_putstr(char *str);
