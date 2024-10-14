@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:05:08 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/09 15:16:19 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 12:01:07 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int get_colors(t_data *data)
 			return (1);
 		}
 		define_colors(rgb, i, data);
-		free_array(&array);
+		free_array(array);
 		free(rgb);
 		i++;
 	}

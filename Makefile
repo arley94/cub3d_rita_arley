@@ -7,9 +7,14 @@ CFLAGS = -Wall -Wextra -Werror
 SRC =	main.c \
 		check_map.c \
 		exit.c \
-		aux.c \
+		color.c \
+		draw.c \
+		init.c \
 		ray.c \
-		raycasting.c
+		move.c \
+		player.c \
+		textures.c \
+		keys.c
 
 #OBJECT FILES
 OBJ = $(SRC:%.c=%.o) 

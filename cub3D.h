@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 16:07:05 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 12:05:37 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ typedef struct s_key
 //IMG
 typedef struct s_img
 {
-	char			*path;
 	void 			*img;
-	int				*addr;
+	char			*addr;
 	int				line_lenght;
 	int				bits_per_pixel;
 	int				endian;
@@ -147,6 +146,7 @@ typedef struct s_data
 	int				text_y;
 	int				text_x;
 	unsigned int	color;
+	double	frame_time;
 	t_direction	player_dir;		
 	t_player	player;
 	t_ray		ray;
@@ -159,6 +159,7 @@ typedef struct s_data
 int		check_cub(char *str);
 int		map_ok(t_data *data);
 int	check_textures(int fd, t_data *data);
+int	check_file(char *file, t_data *data);
 
 //PLAYER
 void	init_player(t_data *data);
@@ -176,12 +177,17 @@ void	move_left(t_data *data);
 void	rotate_right(t_data *data);
 void	rotate_left(t_data *data);
 
+//KEY
+void	key_hooks(t_data *data);
+int	key_press(int keycode, t_data *data);
+int	key_release(int keycode, t_data *data);
+
 //RAY
 void ray_direction(int x, t_data *data);
 void delta_distance(t_data *data);
 void step_side_distance(t_data *data);
 void dda_algorithm(t_data *data);
-double wall_distance(t_data *data);
+void wall_distance(t_data *data);
 void	wall_data(t_data *data);
 void raycasting(t_data *data);
 
@@ -191,5 +197,11 @@ int	init_textures(t_data *data);
 void	set_texture(t_data *data);
 void	draw_texture(int x, t_data *data);
 void	get_texture_x(t_data *data);
+void	draw_floor(t_data *data);
+void	draw_ceiling(t_data *data);
+
+//INIT
+void	init_win(t_data *data);
+int   init_map(t_data *data);
 
 #endif

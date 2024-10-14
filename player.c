@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:14:33 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 14:05:08 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 12:07:18 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ static int	player_direction(t_data *data)
 //INIT PLAYER 
 //SEPARAR VERTICAL Y HORIZONTAL
 void	init_player(t_data *data)
-{
-	int x;
-	int y;
-	
+{	
 	player_position(data);
     data->player_dir = player_direction(data);
 	if (data->player_dir == NORTH)
@@ -79,21 +76,21 @@ void	init_player(t_data *data)
         data->player.plane_x = 0.66;
         data->player.plane_y = 0;
     }
-    else if (data->player_dir = SOUTH)
+    else if (data->player_dir == SOUTH)
     {
         data->player.dir_x = 0;
         data->player.dir_y = 1;
         data->player.plane_x = -0.66;
         data->player.plane_y = 0;       
     }
-    else if (data->player_dir = EAST)
+    else if (data->player_dir == EAST)
     {
         data->player.dir_x = 1;
         data->player.dir_y = 0;
         data->player.plane_x = 0;
         data->player.plane_y = 0.66;
     } 
-    else if (data->player_dir = WEST)
+    else if (data->player_dir == WEST)
 	{
         data->player.dir_x = -1;
         data->player.dir_y = 0;

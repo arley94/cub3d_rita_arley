@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 13:53:45 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 12:00:31 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ int	check_file(char *file, t_data *data)
 {
 	int fd;
 	
-	fd = opne(file, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
 		close(fd);
 		exit_error("Cannot open file!", data);
 	}
-	if (check_textures(fd, data) || read_map(fd, data))
+	if (read_map(fd, data) || check_textures(fd, data))
 	{
 		close(fd);
 		exit_error("File information not correct", data);
@@ -189,7 +189,7 @@ int	map_ok(t_data *data)
 				return (1);
 			break ;
 		}
-		y = 0;
+		x = 0;
 		while (data->map[y][x])
 		{
 			if (check_surrounded_walls(x, y, data) == 1)
