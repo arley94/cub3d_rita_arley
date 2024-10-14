@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:00:31 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 13:28:05 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,16 @@ static int	check_components(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (!ft_strchr(" 10NSWE", data->map[y][x]))
-				return (0);
+			if (data->map[y][x] != '0' && \
+			data->map[y][x] != '1' && \
+			data->map[y][x] != 'N' && \
+			data->map[y][x] != 'S' && \
+			data->map[y][x] != 'E' && \
+			data->map[y][x] != 'W' && \
+			data->map[y][x] != ' ')
+			{
+				return (1);
+			}
 			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
 				count++;
 			x++;
