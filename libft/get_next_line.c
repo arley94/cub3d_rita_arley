@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:55:17 by rivasque          #+#    #+#             */
-/*   Updated: 2024/10/10 11:48:30 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/14 12:09:59 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ int	ft_if_new_line(char **buf, char **line)
 	free((*buf));
 	*buf = tmp;
 	return (1);
+}
+
+int	ft_new_line(char *buf)
+{
+	int	i;
+
+	i = 0;
+	while (buf[i] && buf[i] != 10)
+		i++;
+	if (buf[i] == 10)
+		return (1);
+	return (0);
 }
 
 int	get_next_line(int fd, char **line)
