@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:05:58 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:04:40 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 12:42:06 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,39 @@ int   init_map(t_data *data)
 	mlx_destroy_image(data->mlx, data->img.img);
 	return (0);
 }
-    
+
+//CHECKER
+void	printmap(t_data *data)
+{
+	int x;
+	int y;
+	
+	y = 0;
+	while (data->map->map[y])
+	{
+		x = 0;
+		while (data->map->map[y][x])
+		{
+			printf("%c", data->map->map[y][x]);
+			x++;
+		}
+		y++;
+	}
+}
+
+void printtextures(t_data *data)
+{
+	int i;
+	
+	i = 0;
+	while (data->xpm[i])
+	{
+		printf("%s", data->xpm[i]);
+		i++;
+	}
+}
+
+
 //Creates window
 void	init_win(t_data *data)
 {
@@ -37,7 +69,7 @@ void	init_win(t_data *data)
 		exit_error("Something wrong with mlx!", data);
 	if (map_ok(data))
 		exit_error("Invalid map!", data);
-    if (get_colors(data) || init_textures(data))
+	if (get_colors(data) || init_textures(data))
 		exit_error("Problem with colors or textures!", data);
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
     if (!data->win)

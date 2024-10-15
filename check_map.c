@@ -6,15 +6,15 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 13:28:05 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 13:14:04 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static char    **copy_map(char **map, int size)
+char	**cpy_map(char **map, int size)
 {
-	int		i;
+	int i;
 	char	**cpy_map;
 	
 	i = 0;
@@ -29,45 +29,44 @@ static char    **copy_map(char **map, int size)
 	cpy_map[i] = NULL;
 	cpy_map[i + 1] = NULL;
 	free(map);
-	return (cpy_map);
+	return(cpy_map);
 }
 
-static int	map(char *line, t_data *data)
+int	map(char *line, t_data *data)
 {
 	char	**tmp;
-
-	if (!data->map)
+	if (!data->map->map)
 	{
-		data->map = malloc(sizeof(char *) * 2);
-		if (!data->map)
-			return (1);
-		data->map[0] = ft_strdup(line);
-		data->map[1] = NULL;
+		data->map->map = malloc(sizeof(char *) * 2);
+		if (!data->map->map)
+			return(1);
+		data->map->map[0] = ft_strdup(line);
+		data->map->map[1] = NULL;
 	}
 	else
 	{
-		tmp = copy_map(data->map, array_len(data->map) + 2);
+		tmp = cpy_map(data->map->map, array_len(data->map->map) + 2);
 		if (!tmp)
 			return (1);
-		data->map = tmp;
-		data->map[array_len(data->map)] = ft_strdup(line);
+		data->map->map = tmp;
+		data->map->map[array_len(data->map->map)] = ft_strdup(line);
 	}
 	return (0);
 }
 
-int read_map(int fd, t_data *data)
+int    read_map(int fd, t_data *data)
 {
 	char	*line;
-	int 	bytesread;
-	
+	int		bytesread;
+
 	while (1)
 	{
 		bytesread = get_next_line(fd, &line);
 		if (bytesread < 0)
 			return (1);
-		if (ft_strlen(line) == 0 && !data->map)
+		if (ft_strlen(line) == 0 && !data->map->map)
 			;
-		else if (map(line, data) == 1)
+		else if (map(line, data))
 		{
 			free(line);
 			return (1);
@@ -98,22 +97,6 @@ int	check_file(char *file, t_data *data)
 	return (0);
 }
 
-static int map_end(int i, t_data *data)
-{
-	int x;
-
-	x = i;
-	x++;
-	while (data->map[x])
-	{
-		if (ft_strlen(data->map[x]) > 0)
-			return (1);
-		i++;
-	}
-	data->map[x] = NULL;
-	return (0);
-}
-
 //File extencion of map must be .cub
 int	check_cub(char *str)
 {
@@ -128,19 +111,19 @@ int	check_cub(char *str)
 }
 
 //Map must be surrounded by walls (spaces are valid)
-static int	check_surrounded_walls(int x, int y, t_data *data)
+static int	check_surrounded_walls(int y, int x, t_data *data)
 {
-	if (data->map[y][x] == '0' || (data->map[y][x] != '1' && data->map[y][x] != ' '))
+	if (data->map->map[y][x] == '0' || (data->map->map[y][x] != '1' && data->map->map[y][x] != ' '))
 	{
-		if (y == 0 || !data->map[y + 1] || x == 0 || !data->map[y][x + 1])
+		if (y == 0 || !data->map->map[y + 1] || x == 0 || !data->map->map[y][x + 1])
 			return (1);
-		if (data->map[y - 1] && data->map[y - 1][x] && data->map[y - 1][x] == ' ')
+		if (data->map->map[y - 1] && data->map->map[y - 1][x] && data->map->map[y - 1][x] == ' ')
 			return (1);
-		if (data->map[y + 1] && data->map[y + 1][x] && data->map[y + 1][x] == ' ')
+		if (data->map->map[y + 1] && data->map->map[y + 1][x] && data->map->map[y + 1][x] == ' ')
 			return (1);
-		if (data->map[y] && data->map[y][x - 1] && data->map[y][x - 1] == ' ')
+		if (data->map->map[y] && data->map->map[y][x - 1] && data->map->map[y][x - 1] == ' ')
 			return (1);
-		if (data->map[y] && data->map[y][x + 1] && data->map[y][x + 1] == ' ')
+		if (data->map->map[y] && data->map->map[y][x + 1] && data->map->map[y][x + 1] == ' ')
 			return (1);
 	}
 	return (0);
@@ -156,28 +139,44 @@ static int	check_components(t_data *data)
 
 	y = 0;
 	count = 0;
-	while (data->map[y])
+	while (data->map->map[y])
 	{
 		x = 0;
-		while (data->map[y][x])
+		while (data->map->map[y][x])
 		{
-			if (data->map[y][x] != '0' && \
-			data->map[y][x] != '1' && \
-			data->map[y][x] != 'N' && \
-			data->map[y][x] != 'S' && \
-			data->map[y][x] != 'E' && \
-			data->map[y][x] != 'W' && \
-			data->map[y][x] != ' ')
+			if (data->map->map[y][x] != '0' && \
+			data->map->map[y][x] != '1' && \
+			data->map->map[y][x] != 'N' && \
+			data->map->map[y][x] != 'S' && \
+			data->map->map[y][x] != 'E' && \
+			data->map->map[y][x] != 'W' && \
+			data->map->map[y][x] != ' ')
 			{
 				return (1);
 			}
-			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
+			if (data->map->map[y][x] == 'N' || data->map->map[y][x] == 'S' || data->map->map[y][x] == 'W' || data->map->map[y][x] == 'E')
 				count++;
 			x++;
 		}
 		y++;
 	}
 	return (count);
+}
+
+int	map_end(int index, t_data *data)
+{
+	int i;
+	
+	i = index;
+	i++;
+	while (data->map->map[i])
+	{
+		if (ft_strlen(data->map->map[i]) > 0)
+			return(1);
+		i++;
+	}
+	data->map->map[i] = NULL;
+	return (0);
 }
 
 //Check that map rules apply
@@ -189,16 +188,16 @@ int	map_ok(t_data *data)
 	if (check_components(data) != 1)
 		return (1);
 	y = 0;
-	while (data->map[y])
+	while (data->map->map[y])
 	{
-		if (ft_strlen(data->map[y]) == 0)
+		if (ft_strlen(data->map->map[y]) == 0)
 		{
 			if (map_end(y, data) == 1)
 				return (1);
 			break ;
 		}
 		x = 0;
-		while (data->map[y][x])
+		while (data->map->map[y][x])
 		{
 			if (check_surrounded_walls(x, y, data) == 1)
 				return (1);

@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:17:53 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 11:56:40 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 13:13:14 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static void	init_data(t_data *data)
 {
-	data->map = (char **)malloc(sizeof(char *));
-	data->rgb = ft_calloc(sizeof(char *), 3);
-	data->xpm = ft_calloc(sizeof(char *), 5);
+	data->map = (t_map *)malloc(sizeof(t_map));
 }
 
 int	main(int argc, char **argv)

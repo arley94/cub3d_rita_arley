@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:07:42 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 12:21:58 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_textures(int fd, t_data *data)
 			return (1);
 		if (ft_strlen(line) == 0)
 			;
-		else if (find_textures(line, data) == 1 || find_rgb(line, data) == 1)
+		else if (find_textures(line, data) || find_rgb(line, data))
 		{
 			free(line);
 			return (1);

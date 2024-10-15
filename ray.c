@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:50:28 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 15:34:13 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 12:19:17 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void    dda_algorithm(t_data *data)
             data->ray.map_y += data->ray.step_y;
             data->ray.side = 1;
         }
-        if (data->map[data->ray.map_y][data->ray.map_x] == '1')
+        if (data->map->map[data->ray.map_y][data->ray.map_x] == '1')
         {
            data->ray.hit = 1;
            set_texture(data);

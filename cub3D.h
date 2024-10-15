@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:05:37 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 13:03:32 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,17 +130,22 @@ typedef struct s_ray
 	int				draw_end;
 }	t_ray;
 
+typedef struct s_map
+{
+	char	**map;
+}			t_map;
+
+//GAME STRUCTURE
 typedef struct s_data
 {
 	void		*mlx;
 	void		*win;
-	char		**map;
 	char		**rgb;
 	char		**xpm;
 	unsigned long			floor;
 	unsigned long			ceiling;
 	int			textures[4][TEXTURE_HEIGHT * TEXTURE_WIDTH];
-	
+	t_map	*map;
 	double			tex_position;
 	int				text_number;
 	int				text_y;
@@ -155,7 +160,9 @@ typedef struct s_data
 	t_key		key;
 }			t_data;
 
+
 //CHECK MAP
+int	get_map_start(t_data *data);
 int		check_cub(char *str);
 int		map_ok(t_data *data);
 int	check_textures(int fd, t_data *data);

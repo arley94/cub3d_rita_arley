@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:14:33 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:07:18 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 12:21:23 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	player_position(t_data *data)
 	int	x;
 
 	y = 0;
-	while (data->map[y])
+	while (data->map->map[y])
 	{
 		x = 0;
-		while (data->map[y][x])
+		while (data->map->map[y][x])
 		{
-			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'W' || data->map[y][x] == 'E')
+			if (data->map->map[y][x] == 'N' || data->map->map[y][x] == 'S' || data->map->map[y][x] == 'W' || data->map->map[y][x] == 'E')
 			{
 				data->player.y = y + 0.5;
 				data->player.x = x + 0.5;
@@ -42,18 +42,18 @@ static int	player_direction(t_data *data)
 	int	x;
 
 	y = 0;
-	while (data->map[y])
+	while (data->map->map[y])
 	{
 		x = 0;
-		while (data->map[y][x])
+		while (data->map->map[y][x])
 		{
-			if (data->map[y][x] == 'N')
+			if (data->map->map[y][x] == 'N')
 				data->player_dir = NORTH;
-			else if (data->map[y][x] == 'S')
+			else if (data->map->map[y][x] == 'S')
 				data->player_dir = SOUTH;
-			else if (data->map[y][x] == 'E')
+			else if (data->map->map[y][x] == 'E')
 				data->player_dir = EAST;
-			else if (data->map[y][x] == 'W')
+			else if (data->map->map[y][x] == 'W')
 				data->player_dir = WEST;
 			x++;
 		}
