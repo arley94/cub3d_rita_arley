@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:18:14 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 11:29:27 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/24 12:38:57 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ void free_array(char **array)
 		free(array);
 	}
 }
+
+void	free_row(t_data *data, int row, char **map)
+{
+	free(map[row - 1]);
+	map[row - 1] = NULL;
+	data->map->rows--;
+}
+
 
 void	exit_error(char *str, t_data *data)
 {

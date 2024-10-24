@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 20:21:56 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/24 11:39:03 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	check_textures(int fd, t_data *data)
 	char	*line;
 	int		bytesread;
 
-	data->rgb = ft_calloc(sizeof(char *), 3);
-	if (!data->rgb)
-		return (1);
 	data->xpm = ft_calloc(sizeof(char *), 5);
 	if (!data->xpm)
+		return (1);
+	data->rgb = ft_calloc(sizeof(char *), 3);
+	if (!data->rgb)
 		return (1);
 	while (array_len(data->xpm) != 4 || array_len(data->rgb) != 2)
 	{

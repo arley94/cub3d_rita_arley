@@ -6,14 +6,19 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 13:03:32 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/24 12:39:18 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "mlx/mlx.h"
+# if defined(__linux__)
+	# include "mlx_linux/mlx.h"
+# else
+	# include "mlx_mac/mlx.h"
+# endif
+
 # include "libft/libft.h"
 
 # include <stdlib.h>
@@ -133,6 +138,16 @@ typedef struct s_ray
 typedef struct s_map
 {
 	char	**map;
+	char		*north;
+	char		*south;
+	char		*east;
+	char		*west;
+	char		*floor;
+	char		*ceiling;
+	int			rows;
+	int			columns;
+	int			start_map;
+	int		start_y;
 }			t_map;
 
 //GAME STRUCTURE
@@ -162,11 +177,14 @@ typedef struct s_data
 
 
 //CHECK MAP
-int	get_map_start(t_data *data);
+int	check_file(char *file, t_data *data);
 int		check_cub(char *str);
 int		map_ok(t_data *data);
 int	check_textures(int fd, t_data *data);
-int	check_file(char *file, t_data *data);
+int	get_map_start(t_data *data);
+
+//DELETE
+void	printmap(t_data *data);
 
 //PLAYER
 void	init_player(t_data *data);
@@ -175,6 +193,7 @@ void	init_player(t_data *data);
 void	exit_error(char *str, t_data *data);
 int 	close_window(t_data *data);
 void free_array(char **array);
+void	free_row(t_data *data, int row, char **map);
 
 //MOVE
 void move_forward(t_data *data);

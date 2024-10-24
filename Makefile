@@ -22,25 +22,23 @@ OBJ = $(SRC:%.c=%.o)
 #COMPILE IN MAC AND LINUX
 ifeq ($(shell uname), Linux)
 	INCLUDES = -I/usr/include -Imlx
+	MLX_DIR = ./mlx_linux
+	MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib/X11 -lXext -lX11
 else
 	INCLUDES = -I/opt/X11/include -Imlx
+	MLX_DIR = ./mlx_mac
+	MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/X11/lib -lXext -lX11 -framework OpenGL -framework AppKit
 endif
 
-MLX_DIR = ./mlx
+
 MLX = $(MLX_DIR)/libmlx$(UNAME).a
-
-ifeq ($(shell uname), Linux)
-	MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
-else
-	MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 -framework OpenGL -framework AppKit
-endif
 
 LIBFT = ./libft/libft.a
 
 all: $(MLX) $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $^ $(CFLAGS) $(MLX_FLAGS) -o $(NAME)
+	$(CC) $^ $(MLX_FLAGS) -o $(NAME) -lm
 
 $(LIBFT):
 	@make all -C ./libft
@@ -54,7 +52,7 @@ $(MLX):
 clean:
 	@rm -rf $(OBJ)
 	@make clean -C ./libft
-	@make clean -C ./mlx
+	@make clean -C $(MLX_DIR)
 
 fclean: clean
 	@make fclean -C ./libft
