@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 12:39:18 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/24 13:11:59 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,15 +138,6 @@ typedef struct s_ray
 typedef struct s_map
 {
 	char	**map;
-	char		*north;
-	char		*south;
-	char		*east;
-	char		*west;
-	char		*floor;
-	char		*ceiling;
-	int			rows;
-	int			columns;
-	int			start_map;
 	int		start_y;
 }			t_map;
 
