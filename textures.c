@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 12:21:58 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 20:21:56 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	find_textures(char *line, t_data *data)
 		data->xpm[3] = ft_strdup(textures[1]);
 	else  if (ft_strncmp(textures[0], "F", 2) && ft_strncmp(textures[0], "C", 2))
 		return (1);
-	free_array(textures);
 	return (0);
 }
 
@@ -68,7 +67,8 @@ int	check_textures(int fd, t_data *data)
 			return (1);
 		if (ft_strlen(line) == 0)
 			;
-		else if (find_textures(line, data) || find_rgb(line, data))
+		//NAO SE METE AQUI METE-SE ACIMA
+		if (find_textures(line, data) || find_rgb(line, data))
 		{
 			free(line);
 			return (1);

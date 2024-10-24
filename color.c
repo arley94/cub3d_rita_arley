@@ -6,7 +6,7 @@
 /*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:05:08 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/14 12:01:07 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/15 19:34:51 by ritavasques      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ int get_colors(t_data *data)
     char    **array;
 	int		*rgb;
 	
-	i = 0;
+    i = 0;
 	while (data->rgb[i])
 	{
-		array = ft_split(data->rgb[i], ',');
+        array = ft_split(data->rgb[i], ',');
 		if (!array)
 			return (1);
-		rgb = check_rgb(array);
+        rgb = check_rgb(array);
+        printf("[4]\n");
 		if (!rgb)
 		{
 			free(rgb);
