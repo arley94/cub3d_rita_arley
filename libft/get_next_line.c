@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:55:17 by rivasque          #+#    #+#             */
-/*   Updated: 2024/10/14 12:09:59 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 09:51:02 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,10 @@ int	ft_new_line(char *buf)
 int	get_next_line(int fd, char **line)
 {
 	int			bytesread;
-	static char	*buf[OPEN_MAX];
+	static char	*buf[1024];
 
 	bytesread = BUFFER_SIZE;
-	if (fd >= 0 && BUFFER_SIZE > 0 && fd < OPEN_MAX)
+	if (fd >= 0 && BUFFER_SIZE > 0 && fd < 1024)
 	{
 		if (!buf[fd] && ft_start(buf, fd, &bytesread))
 			return (-1);

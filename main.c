@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:17:53 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 11:38:17 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 13:20:06 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 static void	init_data(t_data *data)
 {
 	data->map = ft_calloc(sizeof(char *), 1);
-	data->xpm = ft_calloc(sizeof(char *), 5);
-	data->rgb = ft_calloc(sizeof(char *), 3);
+	
 }
 
 //CHECKER
@@ -25,7 +24,7 @@ void	printmap(t_data *data)
 	int x;
 	int y;
 	
-	y = data->map->start_y;
+	y = 0;
 	while (data->map->map[y])
 	{
 		printf("\n");
@@ -40,7 +39,7 @@ void	printmap(t_data *data)
 	printf("\n");
 }
 
-
+//IF IN MAC MASK 0.
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -52,13 +51,14 @@ int	main(int argc, char **argv)
 	}	
 	init_data(&data);
 	check_file(argv[1], &data);
-	data.map->start_y = get_map_start(&data);
+	init_player(&data);
 	init_win(&data);
-	/*data.key.p = 1;
-	mlx_loop_hook(data.mlx, init_map, NULL);
-	mlx_hook(data.win, KEY_PRESS, 0, &key_press, NULL);
-	mlx_hook(data.win, KEY_RELEASE, 0, &key_release, NULL);
-	mlx_hook(data.win, SCREEN_X, 0, &close_window, NULL);
-	mlx_loop(data.mlx);*/
+	data.key.p = 1;
+	mlx_loop_hook(data.mlx, init_map, &data);
+	//mlx_key_hook(data.win, &key_press, &data);
+	mlx_hook(data.win, KEY_PRESS, (1L<<0), &key_press, &data);
+	mlx_hook(data.win, KEY_RELEASE, (1L<<1), &key_release, &data);
+	mlx_hook(data.win, SCREEN_X, 0, &close_window, &data);
+	mlx_loop(data.mlx);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:05:58 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 11:34:48 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 13:19:40 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int   init_map(t_data *data)
     data->img.img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_lenght, &data->img.endian);
 	draw_ceiling(data);
-	draw_ceiling(data);
+	draw_floor(data);
 	raycasting(data);
 	key_hooks(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 11:39:03 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 11:18:56 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	find_rgb(char *line, t_data *data)
 	colors = ft_split(line, ' ');
 	if (array_len(colors) != 2)
 		return (1);
+	
 	if (ft_strncmp(colors[0], "F", 1) == 0)
 		data->rgb[0] = ft_strdup(colors[1]);
 	else if (ft_strncmp(colors[0], "C", 1) == 0)
@@ -57,25 +58,45 @@ int	check_textures(int fd, t_data *data)
 	data->xpm = ft_calloc(sizeof(char *), 5);
 	if (!data->xpm)
 		return (1);
-	data->rgb = ft_calloc(sizeof(char *), 3);
-	if (!data->rgb)
-		return (1);
-	while (array_len(data->xpm) != 4 || array_len(data->rgb) != 2)
+	
+	while (array_len(data->xpm) != 4)
 	{
 		bytesread = get_next_line(fd, &line);
 		if (bytesread < 0)
 			return (1);
 		if (ft_strlen(line) == 0)
 			;
-		//NAO SE METE AQUI METE-SE ACIMA
-		if (find_textures(line, data) || find_rgb(line, data))
+		else if (find_textures(line, data))
 		{
 			free(line);
 			return (1);
 		}
 		free(line);
-		if (bytesread == 0)
-			break;
+	}
+	return (0);
+}
+
+int	get_rgb(int fd, t_data *data)
+{
+	char	*line;
+	int		bytesread;
+
+	data->rgb = ft_calloc(sizeof(char *), 3);
+	if (!data->rgb)
+		return (1);
+	while (array_len(data->rgb) != 2)
+	{
+		bytesread = get_next_line(fd, &line);
+		if (bytesread < 0)
+			return (1);
+		if (ft_strlen(line) == 0)
+			;
+		else if (find_rgb(line, data))
+		{
+			free(line);
+			return (1);
+		}
+		free(line);
 	}
 	return (0);
 }

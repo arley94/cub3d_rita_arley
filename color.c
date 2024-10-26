@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:05:08 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 19:34:51 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 11:19:46 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int get_colors(t_data *data)
 		if (!array)
 			return (1);
         rgb = check_rgb(array);
-        printf("[4]\n");
 		if (!rgb)
 		{
 			free(rgb);

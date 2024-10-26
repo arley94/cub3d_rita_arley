@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 13:11:59 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 12:35:30 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,70 @@
 
 # define BUFF_SIZE 1000
 
-//KEYS
-# define ESC 53
-# define W 13
-# define A 0
-# define S 1
-# define D 2
-# define UP 126
-# define DOWN 125
-# define RIGHT 124
-# define LEFT 123
+//KEYS MAC
+// # define ESC 53
+// # define W 13
+// # define A 0
+// # define S 1
+// # define D 2
+// # define UP 126
+// # define DOWN 125
+// # define RIGHT 124
+// # define LEFT 123
+
+
+# define A 97
+# define B 98
+# define C 99
+# define D 100
+# define E 101
+# define F 102
+# define G 103
+# define H 104
+# define I 105
+# define J 106
+# define K 107
+# define L 108
+# define M 109
+# define N 110
+# define O 111
+# define P 112
+# define Q 113
+# define R 114
+# define S 115
+# define T 116
+# define U 117
+# define V 118
+# define W 119
+# define X 120
+# define Y 121
+# define Z 122
+
+/*
+** Keyboard ARROWS
+*/
+
+# define LEFT 65361
+# define RIGHT 65363
+
+
+/*
+** Keyboard NUMPAD
+*/
+
+# define K_NP_DIV 65455
+# define K_NP_MUL 65450
+# define K_NP_MIN 65453
+# define K_NP_PLU 65451
+
+/*
+** Keyboard MISC
+*/
+
+# define K_SP 32
+# define ESC 65307
+
+
 
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
@@ -138,7 +192,6 @@ typedef struct s_ray
 typedef struct s_map
 {
 	char	**map;
-	int		start_y;
 }			t_map;
 
 //GAME STRUCTURE
@@ -172,6 +225,7 @@ int	check_file(char *file, t_data *data);
 int		check_cub(char *str);
 int		map_ok(t_data *data);
 int	check_textures(int fd, t_data *data);
+int	get_rgb(int fd, t_data *data);
 int	get_map_start(t_data *data);
 
 //DELETE
@@ -184,7 +238,6 @@ void	init_player(t_data *data);
 void	exit_error(char *str, t_data *data);
 int 	close_window(t_data *data);
 void free_array(char **array);
-void	free_row(t_data *data, int row, char **map);
 
 //MOVE
 void move_forward(t_data *data);

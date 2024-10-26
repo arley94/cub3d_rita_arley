@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 13:03:50 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/10/26 12:20:46 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,62 +88,24 @@ int	check_file(char *file, t_data *data)
 		close(fd);
 		exit_error("Can't open the file.", data);
 	}
+	if (check_textures(fd, data))
+	{
+		close(fd);
+		exit_error("Problems with the file textures.", data);
+	}
+	if (get_rgb(fd, data))
+	{
+		close(fd);
+		exit_error("Problems with the file rgb.", data);
+	}
 	if (read_map(fd, data))
 	{
 		close(fd);
 		exit_error("Problems with the file.", data);
 	}
 	printmap(data);
-	if (check_textures(fd, data))
-	{
-		close(fd);
-		exit_error("Problems with the file information.", data);
-	}
 	close(fd);
 	return (0);
-}
-
-int	get_map_start(t_data *data)
-{
-	int	y;
-	int start;
-
-	y = 0;
-	start = 0;
-	while (data->map->map[y])
-	{
-		if (data->map->map[y][0] == 'N' && data->map->map[y][1] == 'O')
-			start++;
-		else if (data->map->map[y][0] == 'S' && data->map->map[y][1] == 'O')
-			start++;
-		else if (data->map->map[y][0] == 'W' && data->map->map[y][1] == 'E')
-			start++;
-		else if (data->map->map[y][0] == 'E' && data->map->map[y][1] == 'A')
-			start++;
-		else if (data->map->map[y][0] == 'F')
-			start++;
-		else if (data->map->map[y][0] == 'C')
-			start++;
-		else if (data->map->map[y][0] == '\n')
-			start++;
-		if (data->map->map[y][0] == ' ' || data->map->map[y][0] == '1' || data->map->map[y][0] == '0')
-		{
-			start = y;
-			break ;
-		}
-		y++;
-	}
-	return (start);
-}
-
-int	get_line_len(int y, t_data *data)
-{
-	int	x;
-	
-	x = 0;
-	while (data->map->map[y][x] && data->map->map[y][x] != '\n')
-		x++;
-	return (x);
 }
 
 //File extencion of map must be .cub
@@ -197,7 +159,7 @@ static int	check_components(t_data *data)
 	int	y;
 	int	x;
 	
-	y = data->map->start_y;
+	y = 0;
 	while (data->map->map[y])
 	{
 		x = 0;
@@ -228,7 +190,7 @@ static int	check_player(t_data *data)
 	int	x;
 	int count;
 
-	y = data->map->start_y;
+	y = 0;
 	count = 0;
 	while (data->map->map[y])
 	{
