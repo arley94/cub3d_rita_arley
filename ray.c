@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:50:28 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 12:19:17 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/12/26 18:24:57 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void    init_position(t_data *data)
 //distance ray must travel to reach the next grid line in x and y
 void delta_distance(t_data *data)
 {
-    data->ray.delta_dist_x = fabs(1 / data->ray.dir_x);
-    data->ray.delta_dist_y = fabs(1 / data->ray.dir_y);
+    data->ray.delta_dist_x = (data->ray.dir_x == 0) ? 1e30 : fabs(1 / data->ray.dir_x);
+    data->ray.delta_dist_y = (data->ray.dir_y == 0) ? 1e30 : fabs(1 / data->ray.dir_y);
 }
 
 //Calculate step & side distance:
