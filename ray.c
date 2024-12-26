@@ -93,7 +93,7 @@ void wall_distance(t_data *data)
 	if (data->ray.side == 0)
 		data->ray.wall_dist = data->ray.side_dist_x - data->ray.delta_dist_x;
 	else
-		data->ray.wall_dist = data->ray.side_dist_y - data->ray.side_dist_y;
+		data->ray.wall_dist = data->ray.side_dist_y - data->ray.delta_dist_y;
 }
 
 //Calculate wall height
