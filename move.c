@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:30:38 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/15 12:20:14 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/12/26 18:24:10 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void move_forward(t_data *data)
 
 	x = data->player.x + data->player.dir_x * data->player.move_speed;
 	y = data->player.y + data->player.dir_y * data->player.move_speed;	
-	if (data->map->map[(int)data->player.y][(int)x] != '1')
+	if (data->map[(int)data->player.y][(int)x] != '1')
 		data->player.x += data->player.dir_x * data->player.move_speed;
-	if (data->map->map[(int)y][(int)data->player.x] != '1')
+	if (data->map[(int)y][(int)data->player.x] != '1')
 		data->player.y += data->player.dir_y * data->player.move_speed;
 }
 
@@ -32,9 +32,9 @@ void	move_backwards(t_data *data)
 
 	x = data->player.x - data->player.dir_x * data->player.move_speed;
 	y = data->player.y - data->player.dir_y * data->player.move_speed;	
-	if (data->map->map[(int)data->player.y][(int)x] != '1')
+	if (data->map[(int)data->player.y][(int)x] != '1')
 		data->player.x -= data->player.dir_x * data->player.move_speed;
-	if (data->map->map[(int)y][(int)data->player.x] != '1')
+	if (data->map[(int)y][(int)data->player.x] != '1')
 		data->player.y -= data->player.dir_y * data->player.move_speed;
 }
 
@@ -45,9 +45,9 @@ void	move_right(t_data *data)
 
 	x = data->player.x - data->player.dir_y * data->player.move_speed;
 	y = data->player.y + data->player.dir_x * data->player.move_speed;	
-	if (data->map->map[(int)data->player.y][(int)x] != '1')
+	if (data->map[(int)data->player.y][(int)x] != '1')
 		data->player.x -= data->player.dir_y * data->player.move_speed;
-	if (data->map->map[(int)y][(int)data->player.x] != '1')
+	if (data->map[(int)y][(int)data->player.x] != '1')
 		data->player.y += data->player.dir_x * data->player.move_speed;
 }
 
@@ -58,9 +58,9 @@ void	move_left(t_data *data)
 
 	x = data->player.x + data->player.dir_y * data->player.move_speed;
 	y = data->player.y - data->player.dir_x * data->player.move_speed;	
-	if (data->map->map[(int)data->player.y][(int)x] != '1')
+	if (data->map[(int)data->player.y][(int)x] != '1')
 		data->player.x += data->player.dir_y * data->player.move_speed;
-	if (data->map->map[(int)y][(int)data->player.x] != '1')
+	if (data->map[(int)y][(int)data->player.x] != '1')
 		data->player.y -= data->player.dir_x * data->player.move_speed;
 }
 

@@ -79,7 +79,7 @@ void    dda_algorithm(t_data *data)
             data->ray.map_y += data->ray.step_y;
             data->ray.side = 1;
         }
-        if (data->map->map[data->ray.map_y][data->ray.map_x] == '1')
+        if (data->map[data->ray.map_y][data->ray.map_x] == '1')
         {
            data->ray.hit = 1;
            set_texture(data);

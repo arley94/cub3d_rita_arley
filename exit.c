@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:18:14 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/24 13:12:30 by ritavasques      ###   ########.fr       */
+/*   Updated: 2024/12/26 18:26:09 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exit_error(char *str, t_data *data)
 	ft_printf("\n");
 	free_array(data->xpm);
 	free_array(data->rgb);
-	free_array(data->map->map);
+	free_array(data->map);
 	exit(EXIT_SUCCESS);
 }
 
@@ -50,6 +50,6 @@ int close_window(t_data *data)
 	}
 	free_array(data->xpm);
 	free_array(data->rgb);
-	free_array(data->map->map);
+	free_array(data->map);
 	exit (EXIT_SUCCESS);
 }

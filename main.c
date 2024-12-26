@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:17:53 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 13:20:06 by rivasque         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:34:21 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	init_data(t_data *data)
-{
-	data->map = ft_calloc(sizeof(char *), 1);
+// static void	init_data(t_data *data)
+// {
+// 	data->map = ft_calloc(sizeof(char *), 1);
 	
-}
+// }
 
 //CHECKER
 void	printmap(t_data *data)
@@ -25,13 +25,13 @@ void	printmap(t_data *data)
 	int y;
 	
 	y = 0;
-	while (data->map->map[y])
+	while (data->map[y])
 	{
 		printf("\n");
 		x = 0;
-		while (data->map->map[y][x])
+		while (data->map[y][x])
 		{
-			printf("%c", data->map->map[y][x]);
+			printf("%c", data->map[y][x]);
 			x++;
 		}
 		y++;
@@ -49,7 +49,6 @@ int	main(int argc, char **argv)
 		ft_printf("Error\nINVALID ARGUMENT\n");
 		return (1);
 	}	
-	init_data(&data);
 	check_file(argv[1], &data);
 	init_player(&data);
 	init_win(&data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 12:35:30 by rivasque         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:18:22 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,27 +197,27 @@ typedef struct s_map
 //GAME STRUCTURE
 typedef struct s_data
 {
-	void		*mlx;
-	void		*win;
-	char		**rgb;
-	char		**xpm;
-	unsigned long			floor;
-	unsigned long			ceiling;
-	int			textures[4][TEXTURE_HEIGHT * TEXTURE_WIDTH];
-	t_map	*map;
+	void			*mlx;
+	void			*win;
+	char			**rgb;
+	char			**xpm;
+	unsigned long	floor;
+	unsigned long	ceiling;
+	int				textures[4][TEXTURE_HEIGHT * TEXTURE_WIDTH];
+	char			**map;
 	double			tex_position;
 	int				text_number;
 	int				text_y;
 	int				text_x;
 	unsigned int	color;
-	double	frame_time;
-	t_direction	player_dir;		
-	t_player	player;
-	t_ray		ray;
-	t_img		img;
-	t_texture	texture[4];
-	t_key		key;
-}			t_data;
+	double			frame_time;
+	t_direction		player_dir;		
+	t_player		player;
+	t_ray			ray;
+	t_img			img;
+	t_texture		texture[4];
+	t_key			key;
+}	t_data;
 
 
 //CHECK MAP

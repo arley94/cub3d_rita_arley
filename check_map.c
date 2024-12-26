@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 12:20:46 by rivasque         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:25:34 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ char	**cpy_map(char **map, int size)
 int	map(char *line, t_data *data)
 {
 	char	**tmp;
-	if (!data->map->map)
+	if (!data->map)
 	{
-		data->map->map = malloc(sizeof(char *) * 2);
-		if (!data->map->map)
+		data->map = malloc(sizeof(char *) * 2);
+		if (!data->map)
 			return(1);
-		data->map->map[0] = ft_strdup(line);
-		data->map->map[1] = NULL;
+		data->map[0] = ft_strdup(line);
+		data->map[1] = NULL;
 	}
 	else
 	{
-		tmp = cpy_map(data->map->map, array_len(data->map->map) + 2);
+		tmp = cpy_map(data->map, array_len(data->map) + 2);
 		if (!tmp)
 			return (1);
-		data->map->map = tmp;
-		data->map->map[array_len(data->map->map)] = ft_strdup(line);
+		data->map = tmp;
+		data->map[array_len(data->map)] = ft_strdup(line);
 	}
 	return (0);
 }
@@ -64,7 +64,7 @@ int    read_map(int fd, t_data *data)
 		bytesread = get_next_line(fd, &line);
 		if (bytesread < 0)
 			return (1);
-		if (ft_strlen(line) == 0 && !data->map->map)
+		if (ft_strlen(line) == 0 && !data->map)
 			;
 		else if (map(line, data))
 		{
@@ -160,18 +160,18 @@ static int	check_components(t_data *data)
 	int	x;
 	
 	y = 0;
-	while (data->map->map[y])
+	while (data->map[y])
 	{
 		x = 0;
-		while (data->map->map[y][x])
+		while (data->map[y][x])
 		{
-			if (data->map->map[y][x] != '0' && \
-			data->map->map[y][x] != '1' && \
-			data->map->map[y][x] != 'N' && \
-			data->map->map[y][x] != 'S' && \
-			data->map->map[y][x] != 'E' && \
-			data->map->map[y][x] != 'W' && \
-			data->map->map[y][x] != ' ')
+			if (data->map[y][x] != '0' && \
+			data->map[y][x] != '1' && \
+			data->map[y][x] != 'N' && \
+			data->map[y][x] != 'S' && \
+			data->map[y][x] != 'E' && \
+			data->map[y][x] != 'W' && \
+			data->map[y][x] != ' ')
 			{
 				return (1);
 				break ;
@@ -192,15 +192,15 @@ static int	check_player(t_data *data)
 
 	y = 0;
 	count = 0;
-	while (data->map->map[y])
+	while (data->map[y])
 	{
 		x = 0;
-		while (data->map->map[y][x])
+		while (data->map[y][x])
 		{
-			if (data->map->map[y][x] == 'N' ||
-			data->map->map[y][x] == 'S' ||
-			data->map->map[y][x] == 'E' ||
-			data->map->map[y][x] == 'W')
+			if (data->map[y][x] == 'N' ||
+			data->map[y][x] == 'S' ||
+			data->map[y][x] == 'E' ||
+			data->map[y][x] == 'W')
 				count++;
 			x++;
 		}
