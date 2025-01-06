@@ -6,7 +6,7 @@
 /*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:14:33 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/12/26 18:24:38 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/04 23:37:16 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	player_position(t_data *data)
 }
 
 //FIND DIRECTION OF PLAYER
-static int	player_direction(t_data *data)
+static void	player_direction(t_data *data)
 {
 	int	y;
 	int	x;
@@ -59,7 +59,6 @@ static int	player_direction(t_data *data)
 		}
 		y++;
 	}
-    return (0);
 }
 
 //INIT PLAYER 
@@ -67,7 +66,7 @@ static int	player_direction(t_data *data)
 void	init_player(t_data *data)
 {	
 	player_position(data);
-    data->player_dir = player_direction(data);
+    player_direction(data);
 	if (data->player_dir == NORTH)
     {
        
