@@ -6,7 +6,7 @@
 /*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 10:50:28 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/12/26 18:24:57 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/05 20:47:07 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void step_side_distance(t_data *data)
     if (data->ray.dir_x < 0)
     {
         data->ray.step_x = -1;
-        data->ray.side_dist_x = (data->player.x - (double)data->ray.map_x) * data->ray.delta_dist_x;
+        data->ray.side_dist_x = (data->player.x - data->ray.map_x) * data->ray.delta_dist_x;
     }
     else
     {
@@ -53,12 +53,12 @@ void step_side_distance(t_data *data)
     if (data->ray.dir_y < 0)
     {
         data->ray.step_y = -1;
-        data->ray.side_dist_y = (data->player.y - (double)data->ray.map_y) * data->ray.delta_dist_y;
+        data->ray.side_dist_y = (data->player.y - data->ray.map_y) * data->ray.delta_dist_y;
     }
     else
     {
         data->ray.step_y = 1;
-        data->ray.side_dist_y = (data->ray.map_y + 1.0 - data->player.y) + data->ray.delta_dist_y;
+        data->ray.side_dist_y = (data->ray.map_y + 1.0 - data->player.y) * data->ray.delta_dist_y;
     }
 }
 
