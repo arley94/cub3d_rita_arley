@@ -6,11 +6,32 @@
 /*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/12/26 18:25:34 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:57:58 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+int		ft_isspace(char c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	else
+		return (0);
+}
+
+int		is_map(char *str)
+{
+	if (*str == '\0')
+		return (0);
+	while (*str)
+	{
+		if (!ft_isspace(*str) && !ft_strchr("01NSEW", *str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
 
 char	**cpy_map(char **map, int size)
 {
@@ -32,7 +53,7 @@ char	**cpy_map(char **map, int size)
 	return(cpy_map);
 }
 
-int	map(char *line, t_data *data)
+int	store_map(char *line, t_data *data)
 {
 	char	**tmp;
 	if (!data->map)
@@ -54,33 +75,64 @@ int	map(char *line, t_data *data)
 	return (0);
 }
 
-int    read_map(int fd, t_data *data)
+int    parse_map(t_data *data, int *line_nbr)
 {
-	char	*line;
-	int		bytesread;
 
-	while (1)
+	while (data->cub_text[(*line_nbr)] && !is_map(data->cub_text[(*line_nbr)]))
 	{
-		bytesread = get_next_line(fd, &line);
-		if (bytesread < 0)
-			return (1);
-		if (ft_strlen(line) == 0 && !data->map)
-			;
-		else if (map(line, data))
-		{
-			free(line);
-			return (1);
-		}
-		free(line);
-		if (bytesread == 0)
-			break ;
+		(*line_nbr)++;
 	}
-	return (0);
+	if (!data->cub_text[(*line_nbr)])
+		return (1);
+	while (data->cub_text[(*line_nbr)] && is_map(data->cub_text[(*line_nbr)]))
+	{
+		store_map(data->cub_text[(*line_nbr)], data);
+		(*line_nbr)++;
+	}
+	return(0);
+}
+
+static int all_ellements_are_set(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (data->xpm[i] == NULL)
+			return (O);
+		i++;
+	}
+	i = 0;
+	while (i < 2)
+	{
+		if (data->rgb[i] == NULL)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int parse_elements_but_map(t_data *data, int * line_nbr)
+{
+	int	elements_count;
+
+	elements_count = 0;
+	while (elements_count < 6 && data->cub_text[++(*line_nbr)])
+	{	
+		if (!parse_textures(data->cub_text[*line_nbr],  data, &elements_count)
+				|| !parse_colors(data->cub_text[*line_nbr],  data, &elements_count))
+			continue;
+	}
+	if (!all_ellements_are_set(data))
+		return (1);
+	return(0);
 }
 
 int	check_file(char *file, t_data *data)
 {
-	int fd;
+	int	fd;
+	int line_nbr;
 	
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -88,22 +140,15 @@ int	check_file(char *file, t_data *data)
 		close(fd);
 		exit_error("Can't open the file.", data);
 	}
-	if (check_textures(fd, data))
-	{
-		close(fd);
-		exit_error("Problems with the file textures.", data);
-	}
-	if (get_rgb(fd, data))
-	{
-		close(fd);
-		exit_error("Problems with the file rgb.", data);
-	}
-	if (read_map(fd, data))
+	parse_cub(fd, data);
+	line_nbr = -1;
+	if (parse_cub(fd, data) 
+		|| parse_elements_but_map(data, &line_nbr)
+		|| parse_map(data, &line_nbr))
 	{
 		close(fd);
 		exit_error("Problems with the file.", data);
 	}
-	printmap(data);
 	close(fd);
 	return (0);
 }
@@ -120,38 +165,6 @@ int	check_cub(char *str)
 	else
 		return (0);
 }
-
-//Map must be surrounded by walls (spaces are valid)
-/*static int	check_surrounded_walls(t_data *data)
-{
-	int	y;
-	int	x;
-	
-	y = data->map->start_y;
-	while (data->map->map[y])
-	{
-		x = 0;
-		while (data->map->map[y][x])
-		{
-			if (data->map->map[y][x] == '0' || (data->map->map[y][x] != '1' && data->map->map[y][x] != ' '))
-			{
-				if (y == data->map->map || !data->map->map[y + 1] || x == 0 || !data->map->map[y][x + 1])
-					return (1);
-				if (data->map->map[y - 1] && data->map->map[y - 1][x] && data->map->map[y - 1][x] == ' ')
-					return (1);
-				if (data->map->map[y + 1] && data->map->map[y + 1][x] && data->map->map[y + 1][x] == ' ')
-					return (1);
-				if (data->map->map[y] && data->map->map[y][x - 1] && data->map->map[y][x - 1] == ' ')
-					return (1);
-				if (data->map->map[y] && data->map->map[y][x + 1] && data->map->map[y][x + 1] == ' ')
-					return (1);
-			}
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}*/
 
 // Only components 0, 1, N, S, E, W and space.
 static int	check_components(t_data *data)
@@ -211,6 +224,76 @@ static int	check_player(t_data *data)
 	return (0);
 }
 
+int		checkwall(char *str)
+{
+	while (*str)
+	{
+		if (*str != '1' && !ft_isspace(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+int		check_all_sides(char **strs, int j)
+{
+	if (ft_isspace(strs[-1][j - 1]) || !strs[-1][j - 1])
+		return (0);
+	if (ft_isspace(strs[-1][j]) || !strs[-1][j])
+		return (0);
+	if (ft_isspace(strs[-1][j + 1]) || !strs[-1][j + 1])
+		return (0);
+	if (ft_isspace(strs[0][j - 1]) || !strs[0][j - 1])
+		return (0);
+	if (ft_isspace(strs[0][j + 1]) || !strs[0][j + 1])
+		return (0);
+	if (ft_isspace(strs[1][j - 1]) || !strs[1][j - 1])
+		return (0);
+	if (ft_isspace(strs[1][j]) || !strs[1][j])
+		return (0);
+	if (ft_isspace(strs[1][j + 1]) || !strs[1][j + 1])
+		return (0);
+	return (1);
+}
+
+int		checkmapclosed(char **strs)
+{
+	int j;
+
+	j = 0;
+	while (strs[0][j])
+	{
+		if (ft_strchr("0NSEW", strs[0][j]))
+		{
+			if (!check_all_sides(strs, j))
+				return (0);
+		}
+		j++;
+	}
+	return (1);
+}
+
+int		check_map_walls(t_data *data)
+{
+	int		i;
+	char	**strs;
+
+	i = -1;
+	strs = data->map;
+	while (strs[++i])
+	{
+		if (i == 0 && !checkwall(strs[i]))
+			return (1);
+		else if (!strs[i + 1] && !checkwall(strs[i]))
+			return (1);
+		else if (!strs[i + 1] && i < 2)
+			return (1);
+		else if (!checkmapclosed(&strs[i]))
+			return (1);
+	}
+	return (0);
+}
+
 //Check that map rules apply
 int	map_ok(t_data *data)
 {
@@ -218,7 +301,7 @@ int	map_ok(t_data *data)
 		return (1);
 	if (check_player(data))
 		return (1);
-	//if (check_surrounded_walls(data))
-	//	return (1);
+	if (check_map_walls(data))
+		return (1);
 	return (0);
 }

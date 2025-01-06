@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 11:18:56 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:49:31 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-//Find texture [0] and get adress [1]
-static int	find_textures(char *line, t_data *data)
+int		parse_textures(char *line,  t_data *data, int *count)
 {
-	char	**textures;
-	
+	char			**textures;
+	unsigned char	is_valid_texture;
+
+	is_valid_texture = 1;
 	textures = ft_split(line, ' ');
 	if (array_len(textures) != 2)
-		return (1);
+		return (free_array(textures), 1);
 	if (ft_strncmp(textures[0], "NO", 3) == 0)
 		data->xpm[0] = ft_strdup(textures[1]);
 	else if (ft_strncmp(textures[0], "SO", 3) == 0)
@@ -28,77 +29,33 @@ static int	find_textures(char *line, t_data *data)
 		data->xpm[2] = ft_strdup(textures[1]);
 	else if (ft_strncmp(textures[0], "EA", 3) == 0)
 		data->xpm[3] = ft_strdup(textures[1]);
-	else  if (ft_strncmp(textures[0], "F", 2) && ft_strncmp(textures[0], "C", 2))
-		return (1);
-	return (0);
+	else
+		is_valid_texture = 0;
+	free_array(textures);
+	if (is_valid_texture)
+		return ((*count)++, 0);
+	return(1);
 }
 
-//find floor/ceiling [0] and get rgb [1]
-static int	find_rgb(char *line, t_data *data)
+int		parse_colors(char *line,  t_data *data, int *count)
 {
-	char	**colors;
+	char			**colors;
+	unsigned char	is_valid_color;
 	
+	is_valid_color = 1;
 	colors = ft_split(line, ' ');
 	if (array_len(colors) != 2)
-		return (1);
-	
-	if (ft_strncmp(colors[0], "F", 1) == 0)
+		return (free_array(colors), 1);
+	if (ft_strncmp(colors[0], "F", 2) == 0)
 		data->rgb[0] = ft_strdup(colors[1]);
-	else if (ft_strncmp(colors[0], "C", 1) == 0)
+	else if (ft_strncmp(colors[0], "C", 2) == 0)
 		data->rgb[1] = ft_strdup(colors[1]);
+	else
+		is_valid_color = 0;
 	free_array(colors);
-	return (0);
-}
-
-int	check_textures(int fd, t_data *data)
-{
-	char	*line;
-	int		bytesread;
-
-	data->xpm = ft_calloc(sizeof(char *), 5);
-	if (!data->xpm)
-		return (1);
-	
-	while (array_len(data->xpm) != 4)
-	{
-		bytesread = get_next_line(fd, &line);
-		if (bytesread < 0)
-			return (1);
-		if (ft_strlen(line) == 0)
-			;
-		else if (find_textures(line, data))
-		{
-			free(line);
-			return (1);
-		}
-		free(line);
-	}
-	return (0);
-}
-
-int	get_rgb(int fd, t_data *data)
-{
-	char	*line;
-	int		bytesread;
-
-	data->rgb = ft_calloc(sizeof(char *), 3);
-	if (!data->rgb)
-		return (1);
-	while (array_len(data->rgb) != 2)
-	{
-		bytesread = get_next_line(fd, &line);
-		if (bytesread < 0)
-			return (1);
-		if (ft_strlen(line) == 0)
-			;
-		else if (find_rgb(line, data))
-		{
-			free(line);
-			return (1);
-		}
-		free(line);
-	}
-	return (0);
+	if (is_valid_color)
+		return((*count)++, 0);
+	return (1);
 }
 
 //Textures Array

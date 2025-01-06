@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:05:08 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 11:19:46 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:24:36 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int get_colors(t_data *data)
 	int		*rgb;
 	
     i = 0;
-	while (data->rgb[i])
+	while (i < 2)
 	{
         array = ft_split(data->rgb[i], ',');
 		if (!array)

@@ -6,7 +6,7 @@
 /*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/12/26 18:18:22 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:53:29 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ typedef struct s_map
 //GAME STRUCTURE
 typedef struct s_data
 {
+	char			**cub_text;
 	void			*mlx;
 	void			*win;
 	char			**rgb;
@@ -222,11 +223,14 @@ typedef struct s_data
 
 //CHECK MAP
 int	check_file(char *file, t_data *data);
-int		check_cub(char *str);
-int		map_ok(t_data *data);
+int	check_cub(char *str);
+int	map_ok(t_data *data);
 int	check_textures(int fd, t_data *data);
 int	get_rgb(int fd, t_data *data);
 int	get_map_start(t_data *data);
+int	parse_textures(char *line,  t_data *data, int *count);
+int	parse_colors(char *line,  t_data *data, int *count);
+int	parse_cub(int fd, t_data *data);
 
 //DELETE
 void	printmap(t_data *data);
@@ -237,10 +241,10 @@ void	init_player(t_data *data);
 //EXIT & FREE
 void	exit_error(char *str, t_data *data);
 int 	close_window(t_data *data);
-void free_array(char **array);
+void	free_array(char **array);
 
 //MOVE
-void move_forward(t_data *data);
+void	move_forward(t_data *data);
 void	move_backwards(t_data *data);
 void	move_right(t_data *data);
 void	move_left(t_data *data);
@@ -249,21 +253,21 @@ void	rotate_left(t_data *data);
 
 //KEY
 void	key_hooks(t_data *data);
-int	key_press(int keycode, t_data *data);
-int	key_release(int keycode, t_data *data);
+int		key_press(int keycode, t_data *data);
+int		key_release(int keycode, t_data *data);
 
 //RAY
-void ray_direction(int x, t_data *data);
-void delta_distance(t_data *data);
-void step_side_distance(t_data *data);
-void dda_algorithm(t_data *data);
-void wall_distance(t_data *data);
+void	ray_direction(int x, t_data *data);
+void	delta_distance(t_data *data);
+void	step_side_distance(t_data *data);
+void	dda_algorithm(t_data *data);
+void	wall_distance(t_data *data);
 void	wall_data(t_data *data);
-void raycasting(t_data *data);
+void	raycasting(t_data *data);
 
 //DRAW, COLORS & TEXTURES
-int get_colors(t_data *data);
-int	init_textures(t_data *data);
+int		get_colors(t_data *data);
+int		init_textures(t_data *data);
 void	set_texture(t_data *data);
 void	draw_texture(int x, t_data *data);
 void	get_texture_x(t_data *data);
@@ -272,6 +276,6 @@ void	draw_ceiling(t_data *data);
 
 //INIT
 void	init_win(t_data *data);
-int   init_map(t_data *data);
+int		init_map(t_data *data);
 
 #endif

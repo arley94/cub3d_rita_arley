@@ -14,7 +14,8 @@ SRC =	main.c \
 		move.c \
 		player.c \
 		textures.c \
-		keys.c
+		keys.c \
+		parse_cub.c
 
 #OBJECT FILES
 OBJ = $(SRC:%.c=%.o) 
