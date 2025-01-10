@@ -25,27 +25,6 @@ static int	init_data(t_data **data)
 	return (0);
 }
 
-//CHECKER
-/*void	printmap(t_data *data)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (data->map[y])
-	{
-		printf("\n");
-		x = 0;
-		while (data->map[y][x])
-		{
-			printf("%c", data->map[y][x]);
-			x++;
-		}
-		y++;
-	}
-	printf("\n");
-}*/
-
 //IF IN MAC MASK 0.
 int	main(int argc, char **argv)
 {
@@ -61,7 +40,6 @@ int	main(int argc, char **argv)
 	init_win(data);
 	init_player(data);
 	mlx_loop_hook(data->mlx, init_map, data);
-	//mlx_key_hook(data.win, &key_press, &data);
 	mlx_hook(data->win, KEY_PRESS, (1L << 0), &key_press, data);
 	mlx_hook(data->win, KEY_RELEASE, (1L << 1), &key_release, data);
 	mlx_hook(data->win, SCREEN_X, 0, &close_window, data);
