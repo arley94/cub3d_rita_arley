@@ -6,6 +6,8 @@ CFLAGS = -Wall -Wextra -Werror -g3
 #SOURCE FILES
 SRC =	main.c \
 		check_map.c \
+		check_map_2.c \
+		check_map_3.c \
 		exit.c \
 		color.c \
 		draw.c \

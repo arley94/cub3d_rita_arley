@@ -6,20 +6,34 @@
 /*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:05:58 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/26 13:19:40 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:48:15 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+//Check that map rules apply
+int	map_ok(t_data *data)
+{
+	if (check_components(data))
+		return (1);
+	if (check_player(data))
+		return (1);
+	if (check_map_walls(data))
+		return (1);
+	return (0);
+}
+
 //Initial map
-int   init_map(t_data *data)
+int	init_map(t_data *data)
 {
 	data->frame_time = 16 / 1000.0;
 	data->player.move_speed = data->frame_time * 5.0;
 	data->player.rotation_speed = data->frame_time * 3.0;
-    data->img.img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_HEIGHT);
-	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_lenght, &data->img.endian);
+	data->img.img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.img,
+			&data->img.bits_per_pixel, &data->img.line_lenght,
+			&data->img.endian);
 	draw_ceiling(data);
 	draw_floor(data);
 	raycasting(data);
@@ -42,6 +56,6 @@ void	init_win(t_data *data)
 	if (map_ok(data))
 		exit_error("Invalid map!", data);
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
-    if (!data->win)
+	if (!data->win)
 		exit_error("Cannot create window!", data);
 }

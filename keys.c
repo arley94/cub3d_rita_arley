@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:15:51 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 16:10:03 by ritavasques      ###   ########.fr       */
+/*   Updated: 2025/01/10 14:52:00 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ void	key_hooks(t_data *data)
 	if (data->key.right == 1)
 		rotate_right(data);
 }
-

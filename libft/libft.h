@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:40:12 by rivasque          #+#    #+#             */
-/*   Updated: 2024/10/14 11:59:15 by ritavasques      ###   ########.fr       */
+/*   Updated: 2025/01/10 14:49:46 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	*ft_memmove(void *dest, const void *src, size_t count);
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
 int		ft_line_length(int fd);
-int		get_next_line(int fd,  char **line);
+int		get_next_line(int fd, char **line);
 int		ft_line_count(char **file);
 int		ft_putchar(char c);
 int		ft_putstr(char *str);
@@ -105,5 +105,6 @@ t_llist	*lst_add_new(void *name, void *value);
 void	lst_add_back(t_llist **llst, t_llist *new);
 t_llist	*llist_cpy(t_llist *llst);
 int		only_space(char *str);
+int		ft_new_line(char *buf);
 
 #endif

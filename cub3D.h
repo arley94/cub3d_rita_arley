@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/06 13:53:29 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:53:01 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
-//TO DELETE
-#include <stdio.h>
 
 # define BUFF_SIZE 1000
 
@@ -39,7 +37,6 @@
 // # define DOWN 125
 // # define RIGHT 124
 // # define LEFT 123
-
 
 # define A 97
 # define B 98
@@ -75,7 +72,6 @@
 # define LEFT 65361
 # define RIGHT 65363
 
-
 /*
 ** Keyboard NUMPAD
 */
@@ -91,8 +87,6 @@
 
 # define K_SP 32
 # define ESC 65307
-
-
 
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
@@ -120,51 +114,51 @@ typedef enum e_direction
 //KEYS
 typedef struct s_key
 {
-	int w;
-	int s;
-	int a;
-	int d;
-	int right;
-	int left;
-	int p;
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	right;
+	int	left;
+	int	p;
 }		t_key;
 
 //IMG
 typedef struct s_img
 {
-	void 			*img;
-	char			*addr;
-	int				line_lenght;
-	int				bits_per_pixel;
-	int				endian;
-	int				width;
-	int				height;
+	void	*img;
+	char	*addr;
+	int		line_lenght;
+	int		bits_per_pixel;
+	int		endian;
+	int		width;
+	int		height;
 }			t_img;
 
 //TEXTURE
 typedef struct s_texture
 {
-	void 			*img;
-	int				*addr;
-	int				line_lenght;
-	int				bits_per_pixel;
-	int				endian;
-	int				width;
-	int				height;
-}	t_texture;
+	void	*img;
+	int		*addr;
+	int		line_lenght;
+	int		bits_per_pixel;
+	int		endian;
+	int		width;
+	int		height;
+}			t_texture;
 
 //PLAYER
 typedef struct s_player
 {
-	double			x;
-	double			y;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
-	double		move_speed;
-	double		rotation_speed;
-}				t_player;
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	move_speed;
+	double	rotation_speed;
+}			t_player;
 
 //RAYCASTING
 typedef struct s_ray
@@ -176,18 +170,18 @@ typedef struct s_ray
 	double	delta_dist_x;
 	double	delta_dist_y;
 	double	camera_plane;
-	double wall_x;
+	double	wall_x;
 	int		map_x;
 	int		map_y;
 	int		step_x;
 	int		step_y;
 	double	wall_dist;
 	int		side;
-	int				hit;
-	int				line_height;
-	int				draw_start;
-	int				draw_end;
-}	t_ray;
+	int		hit;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}			t_ray;
 
 typedef struct s_map
 {
@@ -218,19 +212,31 @@ typedef struct s_data
 	t_img			img;
 	t_texture		texture[4];
 	t_key			key;
-}	t_data;
-
+}					t_data;
 
 //CHECK MAP
-int	check_file(char *file, t_data *data);
-int	check_cub(char *str);
-int	map_ok(t_data *data);
-int	check_textures(int fd, t_data *data);
-int	get_rgb(int fd, t_data *data);
-int	get_map_start(t_data *data);
-int	parse_textures(char *line,  t_data *data, int *count);
-int	parse_colors(char *line,  t_data *data, int *count);
-int	parse_cub(int fd, t_data *data);
+int		ft_isspace(char c);
+int		is_map(char *str);
+char	**cpy_map(char **map, int size);
+int		store_map(char *line, t_data *data);
+int		parse_map(t_data *data, int *line_nbr);
+int		all_ellements_are_set(t_data *data);
+int		parse_elements_but_map(t_data *data, int *line_nbr);
+int		check_file(char *file, t_data *data);
+int		check_cub(char *str);
+int		check_components(t_data *data);
+int		check_player(t_data *data);
+int		checkwall(char *str);
+int		check_all_sides(char **strs, int j);
+int		checkmapclosed(char **strs);
+int		check_map_walls(t_data *data);
+int		map_ok(t_data *data);
+int		check_textures(int fd, t_data *data);
+int		get_rgb(int fd, t_data *data);
+int		get_map_start(t_data *data);
+int		parse_textures(char *line, t_data *data, int *count);
+int		parse_colors(char *line, t_data *data, int *count);
+int		parse_cub(int fd, t_data *data);
 
 //DELETE
 void	printmap(t_data *data);
@@ -240,7 +246,7 @@ void	init_player(t_data *data);
 
 //EXIT & FREE
 void	exit_error(char *str, t_data *data);
-int 	close_window(t_data *data);
+int		close_window(t_data *data);
 void	free_array(char **array);
 
 //MOVE
@@ -273,6 +279,7 @@ void	draw_texture(int x, t_data *data);
 void	get_texture_x(t_data *data);
 void	draw_floor(t_data *data);
 void	draw_ceiling(t_data *data);
+void	get_texture_x(t_data *data);
 
 //INIT
 void	init_win(t_data *data);

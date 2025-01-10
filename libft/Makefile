@@ -36,6 +36,7 @@ FUNCTIONS=	ft_isalpha.c \
 			ft_split.c \
 			ft_line_length.c \
 			get_next_line.c \
+			get_next_line_2.c \
 			ft_line_count.c \
 			ft_printf.c \
 			aux_printf.c \

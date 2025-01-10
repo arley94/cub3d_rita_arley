@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:17:53 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/06 14:14:51 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:26:44 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static int	init_data(t_data **data)
 	(*data)->xpm = ft_calloc(5, sizeof(char *));
 	if (!((*data)->cub_text) || !((*data)->rgb) || !((*data)->xpm))
 		exit_error("Error allocating memory", *data);
-	return(0);
+	return (0);
 }
 
 //CHECKER
 void	printmap(t_data *data)
 {
-	int x;
-	int y;
-	
+	int	x;
+	int	y;
+
 	y = 0;
 	while (data->map[y])
 	{
@@ -62,8 +62,8 @@ int	main(int argc, char **argv)
 	init_player(data);
 	mlx_loop_hook(data->mlx, init_map, data);
 	//mlx_key_hook(data.win, &key_press, &data);
-	mlx_hook(data->win, KEY_PRESS, (1L<<0), &key_press, data);
-	mlx_hook(data->win, KEY_RELEASE, (1L<<1), &key_release, data);
+	mlx_hook(data->win, KEY_PRESS, (1L << 0), &key_press, data);
+	mlx_hook(data->win, KEY_RELEASE, (1L << 1), &key_release, data);
 	mlx_hook(data->win, SCREEN_X, 0, &close_window, data);
 	mlx_loop(data->mlx);
 	return (0);
