@@ -6,7 +6,7 @@
 /*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 16:04:23 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:59:58 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	init_textures(t_data *data)
 			return (1);
 		get_textures(i, data);
 		mlx_destroy_image(data->mlx, data->texture[i].img);
-		i++;	
+		i++;
 	}
 	return (0);
 }

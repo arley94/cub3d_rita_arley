@@ -6,11 +6,51 @@
 /*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:05:58 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 15:48:15 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:00:53 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+//both camera direction and camera plane must rotate
+void	rotate_right(t_data *data)
+{
+	double	prev_dir_x;
+	double	prev_plane_x;
+	double	rot_sp;
+
+	rot_sp = data->player.rotation_speed;
+	prev_dir_x = data->player.dir_x;
+	prev_plane_x = data->player.plane_x;
+	data->player.dir_x = data->player.dir_x * cos(rot_sp) - data->player.dir_y
+		* sin(rot_sp);
+	data->player.dir_y = prev_dir_x * sin(rot_sp) + data->player.dir_y
+		* cos(rot_sp);
+	data->player.plane_x = data->player.plane_x * cos(rot_sp)
+		- data->player.plane_y * sin(rot_sp);
+	data->player.plane_y = prev_plane_x * sin(rot_sp) + data->player.plane_y
+		* cos(rot_sp);
+}
+
+//both camera direction and camera plane must rotate
+void	rotate_left(t_data *data)
+{
+	double	prev_dir_x;
+	double	prev_plane_x;
+	double	rot_sp;
+
+	rot_sp = data->player.rotation_speed;
+	prev_dir_x = data->player.dir_x;
+	prev_plane_x = data->player.plane_x;
+	data->player.dir_x = data->player.dir_x * cos(-rot_sp) - data->player.dir_y
+		* sin(-rot_sp);
+	data->player.dir_y = prev_dir_x * sin(-rot_sp) + data->player.dir_y
+		* cos(-rot_sp);
+	data->player.plane_x = data->player.plane_x * cos(-rot_sp)
+		- data->player.plane_y * sin(-rot_sp);
+	data->player.plane_y = prev_plane_x * sin(-rot_sp) + data->player.plane_y
+		* cos(-rot_sp);
+}
 
 //Check that map rules apply
 int	map_ok(t_data *data)

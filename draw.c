@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ritavasques <ritavasques@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:17:09 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/10/10 15:24:27 by ritavasques      ###   ########.fr       */
+/*   Updated: 2025/01/10 16:52:09 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	draw_pixel(int x, int y, int color, t_data *data)
 {
-	char *location;
+	char	*location;
 
-	location = data->img.addr + (y * data->img.line_lenght + x * (data->img.bits_per_pixel / 8));
+	location = data->img.addr + (y * data->img.line_lenght + x
+			* (data->img.bits_per_pixel / 8));
 	*(unsigned int *)location = color;
 }
 
-void draw_line(int x, t_data *data)
+void	draw_line(int x, t_data *data)
 {
-	int y;
+	int	y;
 
 	y = data->ray.draw_start;
 	while (y < data->ray.draw_end)
@@ -34,8 +35,8 @@ void draw_line(int x, t_data *data)
 
 void	draw_floor(t_data *data)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	while (x < WIN_WIDTH)
@@ -49,9 +50,9 @@ void	draw_floor(t_data *data)
 
 void	draw_ceiling(t_data *data)
 {
-	int x;
-	int y;
-	
+	int	x;
+	int	y;
+
 	x = 0;
 	while (x < WIN_WIDTH)
 	{
@@ -64,16 +65,18 @@ void	draw_ceiling(t_data *data)
 
 void	draw_texture(int x, t_data *data)
 {
-	double step;
-	double text_position;
-	
+	double	step;
+	double	text_position;
+
 	step = 1.0 * TEXTURE_HEIGHT / data->ray.line_height;
-	text_position = (data->ray.draw_start - WIN_HEIGHT / 2 + data->ray.line_height / 2) * step;
+	text_position = (data->ray.draw_start - WIN_HEIGHT / 2
+			+ data->ray.line_height / 2) * step;
 	while (data->ray.draw_start < data->ray.draw_end)
 	{
 		data->text_y = (int) text_position & (TEXTURE_HEIGHT - 1);
 		text_position += step;
-		data->color = data->textures[data->text_number][TEXTURE_HEIGHT * data->text_y + data->text_x];
+		data->color = data->textures[data->text_number][TEXTURE_HEIGHT
+			* data->text_y + data->text_x];
 		if (data->ray.side == 1)
 			data->color = (data->color >> 1) & 8355711;
 		draw_pixel(x, data->ray.draw_start, data->color, data);

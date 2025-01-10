@@ -6,7 +6,7 @@
 /*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:17:53 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 15:26:44 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:02:23 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	init_data(t_data **data)
 }
 
 //CHECKER
-void	printmap(t_data *data)
+/*void	printmap(t_data *data)
 {
 	int	x;
 	int	y;
@@ -44,7 +44,7 @@ void	printmap(t_data *data)
 		y++;
 	}
 	printf("\n");
-}
+}*/
 
 //IF IN MAC MASK 0.
 int	main(int argc, char **argv)
