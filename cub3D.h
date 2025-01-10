@@ -14,9 +14,9 @@
 # define CUB3D_H
 
 # if defined(__linux__)
-	# include "mlx_linux/mlx.h"
+#  include "mlx_linux/mlx.h"
 # else
-	# include "mlx_mac/mlx.h"
+#  include "mlx_mac/mlx.h"
 # endif
 
 # include "libft/libft.h"
