@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 16:52:49 by acoto-gu          #+#    #+#             */
-/*   Updated: 2025/01/06 13:42:11 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:15:03 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		add_new_line(t_data *data, int *lnbr)
+int	add_new_line(t_data *data, int *lnbr)
 {
 	char	**temp;
 	int		i;
@@ -37,7 +37,7 @@ int		add_new_line(t_data *data, int *lnbr)
 	return (1);
 }
 
-int		parse_cub(int fd, t_data *data)
+int	parse_cub(int fd, t_data *data)
 {
 	int	i;
 

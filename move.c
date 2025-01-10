@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:30:38 by ritavasques       #+#    #+#             */
-/*   Updated: 2024/12/26 18:24:10 by acoto-gu         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:55:42 by rivasque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void move_forward(t_data *data)
+void	move_forward(t_data *data)
 {
 	double	x;
 	double	y;
@@ -74,10 +74,14 @@ void	rotate_right(t_data *data)
 	rot_sp = data->player.rotation_speed;
 	prev_dir_x = data->player.dir_x;
 	prev_plane_x = data->player.plane_x;	
-	data->player.dir_x = data->player.dir_x * cos(rot_sp) - data->player.dir_y * sin(rot_sp);
-	data->player.dir_y = prev_dir_x * sin(rot_sp) + data->player.dir_y * cos(rot_sp);
-    data->player.plane_x = data->player.plane_x * cos(rot_sp) - data->player.plane_y * sin(rot_sp);
-    data->player.plane_y = prev_plane_x * sin(rot_sp) + data->player.plane_y * cos(rot_sp);
+	data->player.dir_x = data->player.dir_x * cos(rot_sp) - data->player.dir_y
+		* sin(rot_sp);
+	data->player.dir_y = prev_dir_x * sin(rot_sp) + data->player.dir_y
+		* cos(rot_sp);
+    data->player.plane_x = data->player.plane_x * cos(rot_sp) - data->player.plane_y
+		* sin(rot_sp);
+    data->player.plane_y = prev_plane_x * sin(rot_sp) + data->player.plane_y
+		* cos(rot_sp);
 }
 
 //both camera direction and camera plane must rotate
@@ -90,8 +94,12 @@ void	rotate_left(t_data *data)
 	rot_sp = data->player.rotation_speed;
 	prev_dir_x = data->player.dir_x;
 	prev_plane_x = data->player.plane_x;	
-	data->player.dir_x = data->player.dir_x * cos(-rot_sp) - data->player.dir_y * sin(-rot_sp);
-	data->player.dir_y = prev_dir_x * sin(-rot_sp) + data->player.dir_y * cos(-rot_sp);
-    data->player.plane_x = data->player.plane_x * cos(-rot_sp) - data->player.plane_y * sin(-rot_sp);
-    data->player.plane_y = prev_plane_x * sin(-rot_sp) + data->player.plane_y * cos(-rot_sp);
+	data->player.dir_x = data->player.dir_x * cos(-rot_sp) - data->player.dir_y
+		* sin(-rot_sp);
+	data->player.dir_y = prev_dir_x * sin(-rot_sp) + data->player.dir_y
+		* cos(-rot_sp);
+    data->player.plane_x = data->player.plane_x * cos(-rot_sp) - data->player.plane_y
+		* sin(-rot_sp);
+    data->player.plane_y = prev_plane_x * sin(-rot_sp) + data->player.plane_y
+		* cos(-rot_sp);
 }
