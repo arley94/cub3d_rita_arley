@@ -18,7 +18,8 @@ SRC =	main.c \
 		keys.c \
 		parse_cub.c \
 		check_map2.c \
-		check_map3.c
+		check_map3.c \
+		elements.c
 
 #OBJECT FILES
 OBJ = $(SRC:%.c=%.o) 

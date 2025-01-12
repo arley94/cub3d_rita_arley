@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map _2.c                                     :+:      :+:    :+:   */
+/*   check_map2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 15:30:04 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:55:44 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ int	parse_elements_but_map(t_data *data, int *line_nbr)
 	elements_count = 0;
 	while (elements_count < 6 && data->cub_text[++(*line_nbr)])
 	{
-		if (!parse_textures(data->cub_text[*line_nbr], data, &elements_count)
-			|| !parse_colors(data->cub_text[*line_nbr], data, &elements_count))
-			continue ;
+		if (parse_line_color_texture(data->cub_text[*line_nbr], data,
+				&elements_count))
+			return (1);
 	}
 	if (!all_ellements_are_set(data))
 		return (1);
+	(*line_nbr)++;
 	return (0);
 }
 
@@ -60,7 +61,6 @@ int	check_file(char *file, t_data *data)
 		close(fd);
 		exit_error("Can't open the file.", data);
 	}
-	parse_cub(fd, data);
 	line_nbr = -1;
 	if (parse_cub(fd, data)
 		|| parse_elements_but_map(data, &line_nbr)
@@ -92,14 +92,15 @@ int	check_components(t_data *data)
 	int	y;
 	int	x;
 
+	if (data->map == NULL)
+		return (1);
 	y = 0;
 	while (data->map[y])
 	{
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (data->map[y][x] != '0' && \
-			data->map[y][x] != '1' && \
+			if (data->map[y][x] != '0' && data->map[y][x] != '1' && \
 			data->map[y][x] != 'N' && \
 			data->map[y][x] != 'S' && \
 			data->map[y][x] != 'E' && \
@@ -107,7 +108,6 @@ int	check_components(t_data *data)
 			data->map[y][x] != ' ')
 			{
 				return (1);
-				break ;
 			}
 			x++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:05:58 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 17:00:53 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 11:34:40 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	init_map(t_data *data)
 //Creates window
 void	init_win(t_data *data)
 {
+	if (map_ok(data))
+		exit_error("Invalid map!", data);
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit_error("Something wrong with mlx!", data);
@@ -93,8 +95,6 @@ void	init_win(t_data *data)
 		exit_error("Problem with textures!", data);
 	if (get_colors(data))
 		exit_error("Problem with colors!", data);
-	if (map_ok(data))
-		exit_error("Invalid map!", data);
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	if (!data->win)
 		exit_error("Cannot create window!", data);

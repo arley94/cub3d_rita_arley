@@ -3,59 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:23:20 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 16:59:58 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:53:03 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	parse_textures(char *line, t_data *data, int *count)
+int	parse_textures_1(char **element, t_data *data)
 {
-	char			**textures;
-	unsigned char	is_valid_texture;
-
-	is_valid_texture = 1;
-	textures = ft_split(line, ' ');
-	if (array_len(textures) != 2)
-		return (free_array(textures), 1);
-	if (ft_strncmp(textures[0], "NO", 3) == 0)
-		data->xpm[0] = ft_strdup(textures[1]);
-	else if (ft_strncmp(textures[0], "SO", 3) == 0)
-		data->xpm[1] = ft_strdup(textures[1]);
-	else if (ft_strncmp(textures[0], "WE", 3) == 0)
-		data->xpm[2] = ft_strdup(textures[1]);
-	else if (ft_strncmp(textures[0], "EA", 3) == 0)
-		data->xpm[3] = ft_strdup(textures[1]);
+	if (ft_strncmp(element[0], "NO", 4) == 0)
+	{
+		if (data->xpm[0])
+			return (1);
+		data->xpm[0] = ft_strdup(element[1]);
+	}
+	else if (ft_strncmp(element[0], "SO", 4) == 0)
+	{
+		if (data->xpm[1])
+			return (1);
+		data->xpm[1] = ft_strdup(element[1]);
+	}
 	else
-		is_valid_texture = 0;
-	free_array(textures);
-	if (is_valid_texture)
-		return ((*count)++, 0);
-	return (1);
+		return (1);
+	return (0);
 }
 
-int	parse_colors(char *line, t_data *data, int *count)
+int	parse_textures_2(char **element, t_data *data)
 {
-	char			**colors;
-	unsigned char	is_valid_color;
-
-	is_valid_color = 1;
-	colors = ft_split(line, ' ');
-	if (array_len(colors) != 2)
-		return (free_array(colors), 1);
-	if (ft_strncmp(colors[0], "F", 2) == 0)
-		data->rgb[0] = ft_strdup(colors[1]);
-	else if (ft_strncmp(colors[0], "C", 2) == 0)
-		data->rgb[1] = ft_strdup(colors[1]);
+	if (ft_strncmp(element[0], "WE", 4) == 0)
+	{
+		if (data->xpm[2])
+			return (1);
+		data->xpm[2] = ft_strdup(element[1]);
+	}
+	else if (ft_strncmp(element[0], "EA", 4) == 0)
+	{
+		if (data->xpm[3])
+			return (1);
+		data->xpm[3] = ft_strdup(element[1]);
+	}
 	else
-		is_valid_color = 0;
-	free_array(colors);
-	if (is_valid_color)
-		return ((*count)++, 0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 //Textures Array

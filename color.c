@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:05:08 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 16:48:18 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 11:51:25 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	*check_rgb(char **array)
 	{
 		rgb[i] = ft_atoi(array[i]);
 		if (rgb[i] < 0 || rgb[i] > 255)
-			return (NULL);
+			return (free(rgb), NULL);
 		i++;
 	}
 	rgb[i] = 0;
@@ -69,7 +69,7 @@ int	get_colors(t_data *data)
 		rgb = check_rgb(array);
 		if (!rgb)
 		{
-			free(rgb);
+			free_array(array);
 			return (1);
 		}
 		define_colors(rgb, i, data);

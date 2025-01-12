@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:38:52 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 14:56:57 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:27:13 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,22 @@ int	store_map(char *line, t_data *data)
 
 int	parse_map(t_data *data, int *line_nbr)
 {
-	while (data->cub_text[(*line_nbr)] && !is_map(data->cub_text[(*line_nbr)]))
+	while (data->cub_text[(*line_nbr)]
+		&& ft_strlen(data->cub_text[(*line_nbr)]) == 0)
 	{
 		(*line_nbr)++;
 	}
-	if (!data->cub_text[(*line_nbr)])
+	if (!data->cub_text[(*line_nbr)] || !is_map(data->cub_text[(*line_nbr)]))
 		return (1);
 	while (data->cub_text[(*line_nbr)] && is_map(data->cub_text[(*line_nbr)]))
 	{
 		store_map(data->cub_text[(*line_nbr)], data);
+		(*line_nbr)++;
+	}
+	while (data->cub_text[(*line_nbr)])
+	{
+		if (ft_strlen(data->cub_text[(*line_nbr)]) > 0)
+			return (1);
 		(*line_nbr)++;
 	}
 	return (0);

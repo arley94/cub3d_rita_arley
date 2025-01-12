@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rivasque <rivasque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acoto-gu <acoto-gu@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:02:21 by ritavasques       #+#    #+#             */
-/*   Updated: 2025/01/10 15:53:01 by rivasque         ###   ########.fr       */
+/*   Updated: 2025/01/12 13:00:14 by acoto-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,12 +231,12 @@ int		check_all_sides(char **strs, int j);
 int		checkmapclosed(char **strs);
 int		check_map_walls(t_data *data);
 int		map_ok(t_data *data);
-int		parse_textures(char *line, t_data *data, int *count);
-int		parse_colors(char *line, t_data *data, int *count);
+int		parse_textures_1(char **element, t_data *data);
+int		parse_textures_2(char **element, t_data *data);
 int		parse_cub(int fd, t_data *data);
-
-//DELETE
-void	printmap(t_data *data);
+char	*ft_trim(char *str);
+int		parse_line_color_texture(const char *line, t_data *data,
+			int *elements_count);
 
 //PLAYER
 void	init_player(t_data *data);
@@ -245,6 +245,7 @@ void	init_player(t_data *data);
 void	exit_error(char *str, t_data *data);
 int		close_window(t_data *data);
 void	free_array(char **array);
+void	free_array_length(char **array, int length);
 
 //MOVE
 void	move_forward(t_data *data);
